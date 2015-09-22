@@ -1,0 +1,4 @@
+- Handle network error or no network connection
+- Sorting results
+- Tab to browse categories
+X Search query results will not change minute to minute so payloads can be cached with a bounded cache + day long ttl...but what about your current geo. Would throw off all the distance results :-( Could in theory determine a 0.1 mile radius from a set of coordinates for the user location and coalesce all search queries into the same cache key for that bounding box since the granularity of distance in the UI doesn't go finer than 0.1 miles. Lots of complecity for likely little gain though...

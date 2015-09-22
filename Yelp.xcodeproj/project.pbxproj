@@ -18,6 +18,11 @@
 		1F2C26571BB11F1100B3A4F9 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C26561BB11F1100B3A4F9 /* BusinessCell.swift */; settings = {ASSET_TAGS = (); }; };
 		1F2C265B1BB11FD100B3A4F9 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C265A1BB11FD100B3A4F9 /* Business.swift */; settings = {ASSET_TAGS = (); }; };
 		1F6D9F401BB14B4600443A53 /* SecureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D9F3F1BB14B4600443A53 /* SecureURL.swift */; settings = {ASSET_TAGS = (); }; };
+		1F6D9F451BB1E84800443A53 /* categories.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F6D9F441BB1E84800443A53 /* categories.json */; settings = {ASSET_TAGS = (); }; };
+		1F6D9F471BB1E9CE00443A53 /* neighborhoods.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F6D9F461BB1E9CE00443A53 /* neighborhoods.json */; settings = {ASSET_TAGS = (); }; };
+		1F6D9F4B1BB1EC3E00443A53 /* yelp_logo_100x50.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F6D9F4A1BB1EC3E00443A53 /* yelp_logo_100x50.png */; settings = {ASSET_TAGS = (); }; };
+		1F6D9F4F1BB1F7CD00443A53 /* business_90_square.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F6D9F4E1BB1F7CD00443A53 /* business_90_square.png */; settings = {ASSET_TAGS = (); }; };
+		1F6D9F511BB215CD00443A53 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D9F501BB215CD00443A53 /* README.md */; settings = {ASSET_TAGS = (); }; };
 		1F9084281BB120BB00002612 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9084271BB120BB00002612 /* Client.swift */; settings = {ASSET_TAGS = (); }; };
 		1F90842A1BB122F200002612 /* Yelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9084291BB122F200002612 /* Yelp.swift */; settings = {ASSET_TAGS = (); }; };
 		7E3A342FE5273B29F1F1FA1F /* libPods-Yelp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EA2E2ECE0CBFCBA7E2BD1D1 /* libPods-Yelp.a */; };
@@ -58,6 +63,11 @@
 		1F2C26561BB11F1100B3A4F9 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		1F2C265A1BB11FD100B3A4F9 /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		1F6D9F3F1BB14B4600443A53 /* SecureURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureURL.swift; sourceTree = "<group>"; };
+		1F6D9F441BB1E84800443A53 /* categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = categories.json; sourceTree = "<group>"; };
+		1F6D9F461BB1E9CE00443A53 /* neighborhoods.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = neighborhoods.json; sourceTree = "<group>"; };
+		1F6D9F4A1BB1EC3E00443A53 /* yelp_logo_100x50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yelp_logo_100x50.png; sourceTree = "<group>"; };
+		1F6D9F4E1BB1F7CD00443A53 /* business_90_square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = business_90_square.png; sourceTree = "<group>"; };
+		1F6D9F501BB215CD00443A53 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1F9084241BB120A500002612 /* Yelp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Yelp-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F9084271BB120BB00002612 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		1F9084291BB122F200002612 /* Yelp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yelp.swift; sourceTree = "<group>"; };
@@ -117,6 +127,7 @@
 		1F2C26221BB11B0800B3A4F9 /* Yelp */ = {
 			isa = PBXGroup;
 			children = (
+				1F6D9F431BB1E83700443A53 /* Resources */,
 				1F2C265C1BB11FE200B3A4F9 /* Client */,
 				1F2C26581BB11F1500B3A4F9 /* Views */,
 				1F2C26551BB11EDF00B3A4F9 /* View Controllers */,
@@ -125,6 +136,7 @@
 				1F2C262C1BB11B0800B3A4F9 /* Assets.xcassets */,
 				1F2C262E1BB11B0800B3A4F9 /* LaunchScreen.storyboard */,
 				1F2C26311BB11B0800B3A4F9 /* Info.plist */,
+				1F6D9F501BB215CD00443A53 /* README.md */,
 				1F9084241BB120A500002612 /* Yelp-Bridging-Header.h */,
 			);
 			path = Yelp;
@@ -182,6 +194,33 @@
 				1F9084291BB122F200002612 /* Yelp.swift */,
 			);
 			name = Client;
+			sourceTree = "<group>";
+		};
+		1F6D9F431BB1E83700443A53 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1F6D9F491BB1EC2F00443A53 /* Images */,
+				1F6D9F481BB1EC2100443A53 /* Data */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1F6D9F481BB1EC2100443A53 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				1F6D9F461BB1E9CE00443A53 /* neighborhoods.json */,
+				1F6D9F441BB1E84800443A53 /* categories.json */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		1F6D9F491BB1EC2F00443A53 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				1F6D9F4A1BB1EC3E00443A53 /* yelp_logo_100x50.png */,
+				1F6D9F4E1BB1F7CD00443A53 /* business_90_square.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		28132CE3562FAA1E37F5CB48 /* Frameworks */ = {
@@ -307,9 +346,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F6D9F4B1BB1EC3E00443A53 /* yelp_logo_100x50.png in Resources */,
 				1F2C26301BB11B0800B3A4F9 /* LaunchScreen.storyboard in Resources */,
+				1F6D9F4F1BB1F7CD00443A53 /* business_90_square.png in Resources */,
+				1F6D9F451BB1E84800443A53 /* categories.json in Resources */,
 				1F2C262D1BB11B0800B3A4F9 /* Assets.xcassets in Resources */,
 				1F2C262B1BB11B0800B3A4F9 /* Main.storyboard in Resources */,
+				1F6D9F471BB1E9CE00443A53 /* neighborhoods.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +416,7 @@
 				1F2C265B1BB11FD100B3A4F9 /* Business.swift in Sources */,
 				1F9084281BB120BB00002612 /* Client.swift in Sources */,
 				1F6D9F401BB14B4600443A53 /* SecureURL.swift in Sources */,
+				1F6D9F511BB215CD00443A53 /* README.md in Sources */,
 				1F2C26241BB11B0800B3A4F9 /* AppDelegate.swift in Sources */,
 				1F90842A1BB122F200002612 /* Yelp.swift in Sources */,
 			);

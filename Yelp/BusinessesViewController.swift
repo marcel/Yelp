@@ -17,13 +17,14 @@ class BusinessesViewController: UITableViewController {
   }
     override func viewDidLoad() {
       super.viewDidLoad()
+      prepareTableView()
+
       let client = Yelp.Client()
-      client.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Yelp.Business]!, error: NSError!) -> Void in
+      client.searchWithTerm("Restaurants", sort: .Distance, categories: ["thai"], deals: false) { (businesses: [Yelp.Business]!, error: NSError!) -> Void in
         self.businesses = businesses
 
         for business in businesses {
           print(business.name)
-//          print(business.address!)
         }
       }
 
@@ -38,7 +39,14 @@ class BusinessesViewController: UITableViewController {
     tableView.reloadData()
   }
 
-    // MARK: - Table view data source
+  func prepareTableView() {
+    tableView.rowHeight          = UITableViewAutomaticDimension
+    tableView.separatorInset     = UIEdgeInsetsZero
+    tableView.layoutMargins      = UIEdgeInsetsZero
+    tableView.estimatedRowHeight = 120
+  }
+
+  // MARK: - Table view data source
 
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     return 1
@@ -54,13 +62,14 @@ class BusinessesViewController: UITableViewController {
       BusinessCell.identifier,
       forIndexPath: indexPath
     ) as! BusinessCell
-
-    cell.business = businessAtIndexPath(indexPath)
+    cell.separatorInset = UIEdgeInsetsZero
+    
+    cell.result = (indexPath.row + 1, businessAtIndexPath(indexPath))
     
     return cell
   }
 
-  func businessAtIndexPath(indexPath: NSIndexPath) -> Yelp.Business? {
+  func businessAtIndexPath(indexPath: NSIndexPath) -> Yelp.Business {
     return businesses[indexPath.row]
   }
 

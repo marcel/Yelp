@@ -15,6 +15,11 @@ extension Yelp {
       let longitude: Double
     }
 
+    struct Category {
+      let name: String
+      let alias: String
+    }
+
     struct Payload {
       let dictionary: NSDictionary
 
@@ -54,16 +59,24 @@ extension Yelp {
         return Coordinate(latitude: latitude, longitude: longitude)
       }
 
-      var addresses: [String]? {
-        return dictionary.valueForKeyPath(Key.Addresses.rawValue) as? [String]
+      var addresses: [String] {
+        return dictionary.valueForKeyPath(
+          Key.Addresses.rawValue
+        ) as? [String] ?? []
       }
 
-      var neighborhoods: [String]? {
-        return dictionary.valueForKeyPath(Key.Neighborhoods.rawValue) as? [String]
+      var neighborhoods: [String] {
+        return dictionary.valueForKeyPath(
+          Key.Neighborhoods.rawValue
+        ) as? [String] ?? []
       }
 
-      var categories: [[String]]? {
-        return dictionary[Key.Categories.rawValue] as? [[String]]
+      var categories: [Category] {
+        if let pairs = dictionary[Key.Categories.rawValue] as? [[String]] {
+          return pairs.flatMap { pair in Category(name: pair[0], alias: pair[1]) }
+        } else {
+          return []
+        }
       }
 
       var distanceInMeters: Int? {
@@ -98,11 +111,13 @@ extension Yelp {
     // MARK: - Properties
 
     let name: String
-//    let address: String
-    let imageUrl: SecureURL
+    let addresses: [String]
+    let neighborhoods: [String]
+    let imageUrl: SecureURL?
     let ratingImageUrl: SecureURL
     let distanceInMiles: Double
     let reviewCount: Int
+    let categories: [Category]
     // TODO ETC
 
     private let payload: Payload
@@ -115,10 +130,13 @@ extension Yelp {
       self.payload = payload
 
       self.name            = payload.name
-      self.imageUrl        = payload.imageUrl!
+      self.addresses       = payload.addresses
+      self.neighborhoods   = payload.neighborhoods
+      self.imageUrl        = payload.imageUrl
       self.ratingImageUrl  = payload.ratingImageUrl!
       self.distanceInMiles = payload.distanceInMiles!
       self.reviewCount     = payload.reviewCount!
+      self.categories      = payload.categories
     }
 
     convenience init(dictionary: NSDictionary) {

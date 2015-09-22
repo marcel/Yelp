@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8150" systemVersion="15A204g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8187.4" systemVersion="15A278b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8151.3"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,8 +16,40 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yelp_logo_100x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="Nur-gu-QKk">
+                                <rect key="frame" x="250" y="275" width="100" height="50"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="bEU-2j-TjL"/>
+                                    <constraint firstAttribute="width" secondItem="Nur-gu-QKk" secondAttribute="height" multiplier="2:1" id="gsD-ls-Jb8"/>
+                                    <constraint firstAttribute="width" constant="100" id="v7g-27-qI3"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="gsD-ls-Jb8"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                        </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.71764705880000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Nur-gu-QKk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="2wW-19-IFl"/>
+                            <constraint firstAttribute="trailing" secondItem="Nur-gu-QKk" secondAttribute="trailing" constant="250" id="Eru-3k-Uoo"/>
+                            <constraint firstItem="Nur-gu-QKk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Fi2-iV-WFy"/>
+                            <constraint firstItem="Nur-gu-QKk" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="255" id="JWE-jh-e9B"/>
+                            <constraint firstItem="Nur-gu-QKk" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="250" id="KAD-7g-ocH"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Nur-gu-QKk" secondAttribute="bottom" constant="275" id="fMc-U6-YgP"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Eru-3k-Uoo"/>
+                                <exclude reference="JWE-jh-e9B"/>
+                                <exclude reference="KAD-7g-ocH"/>
+                                <exclude reference="fMc-U6-YgP"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +57,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="yelp_logo_100x50.png" width="102" height="52"/>
+    </resources>
 </document>

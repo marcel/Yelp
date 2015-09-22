@@ -87,7 +87,7 @@ extension Yelp {
       // TODO Determine current location
       
       // Default the location to San Francisco
-      var parameters: [String : AnyObject] = ["term": term, "ll": "37.785771,-122.406165"]
+      var parameters: [String : AnyObject] = ["term": term, "ll": "37.7666691,-122.4333135"]
 
       if sort != nil {
         parameters["sort"] = sort!.rawValue
