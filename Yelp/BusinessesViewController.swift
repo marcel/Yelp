@@ -10,11 +10,16 @@ import UIKit
 
 class BusinessesViewController: UITableViewController {
 
+  var businesses: [Yelp.Business] = [] {
+    didSet {
+      reloadData()
+    }
+  }
     override func viewDidLoad() {
-        super.viewDidLoad()
+      super.viewDidLoad()
       let client = Yelp.Client()
       client.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Yelp.Business]!, error: NSError!) -> Void in
-//        self.businesses = businesses
+        self.businesses = businesses
 
         for business in businesses {
           print(business.name)
@@ -22,11 +27,6 @@ class BusinessesViewController: UITableViewController {
         }
       }
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,27 +34,35 @@ class BusinessesViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+  func reloadData() {
+    tableView.reloadData()
+  }
+
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    return 1
+  }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
+  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return businesses.count
+  }
 
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    
+    let cell = tableView.dequeueReusableCellWithIdentifier(
+      BusinessCell.identifier,
+      forIndexPath: indexPath
+    ) as! BusinessCell
 
-        // Configure the cell...
+    cell.business = businessAtIndexPath(indexPath)
+    
+    return cell
+  }
 
-        return cell
-    }
-    */
+  func businessAtIndexPath(indexPath: NSIndexPath) -> Yelp.Business? {
+    return businesses[indexPath.row]
+  }
 
     /*
     // Override to support conditional editing of the table view.

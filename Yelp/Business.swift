@@ -25,7 +25,7 @@ extension Yelp {
         case Latitude       = "location.coordinate.latitude"
         case Longitude      = "location.coordinate.longitude"
         case Addresses      = "location.address"
-        case Neighborhoods  = "neighborhoods"
+        case Neighborhoods  = "location.neighborhoods"
         case Categories     = "categories"
         case Distance       = "distance"
         case RatingImageUrl = "rating_img_url_large"
@@ -37,7 +37,7 @@ extension Yelp {
         return dictionary[Key.Name.rawValue] as! String
       }
 
-      var imageUrl: NSURL? {
+      var imageUrl: SecureURL? {
         return urlFromKey(Key.ImageUrl)
       }
 
@@ -59,7 +59,7 @@ extension Yelp {
       }
 
       var neighborhoods: [String]? {
-        return location.flatMap { $0[Key.Neighborhoods.rawValue] as? [String] }
+        return dictionary.valueForKeyPath(Key.Neighborhoods.rawValue) as? [String]
       }
 
       var categories: [[String]]? {
@@ -76,8 +76,8 @@ extension Yelp {
         return distanceInMeters.map { Double($0) * milesPerMeter }
       }
 
-      var ratingImgUrl: NSURL? {
-        return urlFromKey(Key.ImageUrl)
+      var ratingImageUrl: SecureURL? {
+        return urlFromKey(Key.RatingImageUrl)
       }
 
       var rating: Int? {
@@ -88,10 +88,10 @@ extension Yelp {
         return dictionary[Key.ReviewCount.rawValue] as? Int
       }
 
-      private func urlFromKey(key: Key) -> NSURL? {
+      private func urlFromKey(key: Key) -> SecureURL? {
         let urlString = dictionary[key.rawValue] as? String
 
-        return urlString.map { NSURL(string: $0)! }
+        return urlString.map { SecureURL(string: $0) }
       }
     }
 
@@ -99,17 +99,26 @@ extension Yelp {
 
     let name: String
 //    let address: String
-//    let imageUrl: NSURL
+    let imageUrl: SecureURL
+    let ratingImageUrl: SecureURL
+    let distanceInMiles: Double
+    let reviewCount: Int
     // TODO ETC
 
     private let payload: Payload
 
     // MARK: - Initializers
 
+    // TODO Perhaps make this a failable initializer if any of the expected
+    // attributes came back nil and then it can just be flatMapped out of the results
     init(payload: Payload) {
       self.payload = payload
 
-      self.name = payload.name
+      self.name            = payload.name
+      self.imageUrl        = payload.imageUrl!
+      self.ratingImageUrl  = payload.ratingImageUrl!
+      self.distanceInMiles = payload.distanceInMiles!
+      self.reviewCount     = payload.reviewCount!
     }
 
     convenience init(dictionary: NSDictionary) {
