@@ -63,8 +63,7 @@ class BusinessCell: UITableViewCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     updateThumbnailCornerRadius()
-    separatorInset = UIEdgeInsetsZero
-    layoutMargins = UIEdgeInsetsZero
+    self.layoutMargins = UIEdgeInsetsZero
   }
 
   override func setSelected(selected: Bool, animated: Bool) {

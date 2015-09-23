@@ -41,8 +41,6 @@ class BusinessesViewController: UITableViewController {
 
   func prepareTableView() {
     tableView.rowHeight          = UITableViewAutomaticDimension
-    tableView.separatorInset     = UIEdgeInsetsZero
-    tableView.layoutMargins      = UIEdgeInsetsZero
     tableView.estimatedRowHeight = 120
   }
 
