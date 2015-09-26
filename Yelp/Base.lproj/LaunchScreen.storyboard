@@ -17,17 +17,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yelp_logo_100x50.png" translatesAutoresizingMaskIntoConstraints="NO" id="Nur-gu-QKk">
-                                <rect key="frame" x="250" y="275" width="100" height="50"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="Nur-gu-QKk">
+                                <rect key="frame" x="146" y="225" width="308" height="150"/>
                                 <animations/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Vgu-Bi-zIL"/>
                                     <constraint firstAttribute="height" constant="50" id="bEU-2j-TjL"/>
                                     <constraint firstAttribute="width" secondItem="Nur-gu-QKk" secondAttribute="height" multiplier="2:1" id="gsD-ls-Jb8"/>
                                     <constraint firstAttribute="width" constant="100" id="v7g-27-qI3"/>
+                                    <constraint firstAttribute="width" constant="308" id="xhc-Jb-qjn"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="bEU-2j-TjL"/>
                                         <exclude reference="gsD-ls-Jb8"/>
+                                        <exclude reference="v7g-27-qI3"/>
                                     </mask>
                                 </variation>
                             </imageView>
@@ -58,6 +62,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="yelp_logo_100x50.png" width="102" height="52"/>
+        <image name="launchscreen.png" width="1280" height="623"/>
     </resources>
 </document>
