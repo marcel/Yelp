@@ -8,10 +8,14 @@
 
 import UIKit
 
-@objc protocol FiltersViewControllerDelegate {
-  optional func filtersViewController(
+protocol FiltersViewControllerDelegate {
+  // Not making it an optional because SearchQuery is a struct and can't
+  // be bridge to Objective-C. I'd rather make this delegate method required
+  // than have to introduce complex indirection to get the filter results back
+  // to the main controller.
+  func filtersViewController(
     filtersViewController: FiltersViewController,
-    didUpdateFilters filters: FiltersViewController.CategorySelection
+    didUpdateFiltersForSearchQuery searchQuery: Yelp.Client.SearchQuery
   )
 }
 
@@ -40,8 +44,8 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
     let sections: [Section]
     let sectionsByIndex: SectionReverseIndex
     private var selections = Dictionary<Section.Index, Selections>()
-
     private let toggled = Set<Section.Index>()
+    private let defaultSearchQuery = SearchQuery()
 
     init(sections: [Section]) {
       self.sections = sections
@@ -51,8 +55,18 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
       }
 
       sections.forEach { section in
-        selections[section.index] = Selections()
+        let defaultValues = section.values.filter { $0.enabledByDefault }
+        selections[section.index] = Selections(defaultValues)
       }
+    }
+
+    var selectionsAsSearchQuery: SearchQuery {
+      return defaultSearchQuery.copy(
+        sort: Array(selectionsForSection(sectionsByIndex[.Sort]!)).first.map { SortMode(rawValue: $0.raw as! Int)! },
+        radius: Array(selectionsForSection(sectionsByIndex[.Distance]!)).first.map { $0.raw as! Int },
+        categories: Array(selectionsForSection(sectionsByIndex[.Category]!)).map { $0.raw as! String } as [String],
+        onlyDeals: Array(selectionsForSection(sectionsByIndex[.OnlyDeals]!)).first.map { $0.raw as! Bool }
+      )
     }
 
     mutating func selectValue(value: CellValue, fromSection section: Section) {
@@ -61,6 +75,10 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
 
     mutating func deselectValue(value: CellValue, fromSection section: Section) {
       selections[section.index]!.remove(value)
+    }
+
+    mutating func deselectAllValuesFromSection(section: Section) {
+      selections[section.index]!.removeAll()
     }
 
     func hasSelectionBeenMadeForValue(value: CellValue, fromSection section: Section) -> Bool {
@@ -113,7 +131,7 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
     }
   }
 
-  let sectionController = SectionController(
+  var sectionController = SectionController(
     sections: [
       Section(
         title: .None,
@@ -128,7 +146,7 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
           CellValue(display: "0.25 miles", raw: SearchQuery.milesToRadius(0.25)),
           CellValue(display: "1 mile",     raw: SearchQuery.milesToRadius(1)),
           CellValue(display: "5 miles",    raw: SearchQuery.milesToRadius(5)),
-          CellValue(display: "10 miles",   raw: SearchQuery.milesToRadius(10)),
+          CellValue(display: "10 miles",   raw: SearchQuery.milesToRadius(10), enabledByDefault: true),
           CellValue(display: "25 miles",   raw: SearchQuery.milesToRadius(25))
         ],
         index: .Distance,
@@ -139,7 +157,7 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
         title: "Sort By",
         values: [
           CellValue(display: "Best Match",    raw: SortMode.BestMatched.rawValue),
-          CellValue(display: "Distance",      raw: SortMode.Distance.rawValue),
+          CellValue(display: "Distance",      raw: SortMode.Distance.rawValue, enabledByDefault: true),
           CellValue(display: "Highest Rated", raw: SortMode.HighestRated.rawValue)
         ],
         index: .Sort,
@@ -167,9 +185,9 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
   }
 
   @IBAction func onSearchButton(sender: AnyObject) {
-    delegate?.filtersViewController?(
+    delegate?.filtersViewController(
       self,
-      didUpdateFilters: selectedCategories
+      didUpdateFiltersForSearchQuery: sectionController.selectionsAsSearchQuery
     )
     dismissViewControllerAnimated(true, completion: nil)
   }
@@ -241,25 +259,9 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
     let section = sectionController.sectionForIndexPath(indexPath)
     let value   = sectionController.valueforIndexPath(indexPath)
 
-    cell.value = value
+    cell.value   = value
+    cell.section = indexPath.section
     cell.onSwitch.on = sectionController.hasSelectionBeenMadeForValue(value, fromSection: section)
-
-//    switch indexPath.section {
-//    case Section.OnlyDeals.rawValue:
-//      cell.onSwitch.on = false
-//      let category = restaurantCategories.last!
-//
-//      cell.value = SwitchCell.Value(display: category.title, raw: category.alias)
-//    case Section.Category.rawValue:
-//      let category = restaurantCategories[indexPath.row]
-//
-//      cell.onSwitch.on = selectedCategories.contains(category.alias)
-//      cell.value       = SwitchCell.Value(display: category.title, raw: category.alias)
-//    default:
-//      cell.onSwitch.on = false
-//      let category = restaurantCategories[restaurantCategories.count - indexPath.section]
-//      cell.value       = SwitchCell.Value(display: category.title, raw: category.alias)
-//    }
 
     return cell
   }
@@ -267,24 +269,26 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
   // MARK: - SwitchCellDelegate
 
   func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
-//    let alias = switchCell.value.raw as! String
-//
-//    if value {
-//      selectedCategories.insert(alias)
-//    } else {
-//      selectedCategories.remove(alias)
-//    }
+    let section = sectionController.sectionForSectionNumber(switchCell.section!)
 
-    print("Category \(switchCell.value.display) switched to \(value)")
+    if value {
+      if section.allowsMultipleSelections {
+        sectionController.selectValue(switchCell.value, fromSection: section)
+      } else {
+        sectionController.deselectAllValuesFromSection(section)
+        sectionController.selectValue(switchCell.value, fromSection: section)
+
+        tableView.reloadSections(
+          NSIndexSet(index: section.index.rawValue),
+          withRowAnimation: UITableViewRowAnimation.Automatic
+        )
+      }
+    } else {
+      sectionController.deselectValue(switchCell.value, fromSection: section)
+    }
+    print("Cell \(switchCell.value.display) in section \(section.title) switched to \(value)")
+    print("Current query: \(sectionController.selectionsAsSearchQuery)")
 //    print("Selected categories: \(selectedCategories)")
   }
-
-  /*
-  // Override to support conditional rearranging of the table view.
-  override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-      // Return false if you do not want the item to be re-orderable.
-      return true
-  }
-  */
 
 }

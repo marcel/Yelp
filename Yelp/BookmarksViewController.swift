@@ -16,37 +16,54 @@ class BookmarksViewController: UITableViewController {
     }
   }
 
+  var needsReload: Bool {
+    let mostRecentModification    = BookmarkRepository.sharedInstance.lastModification
+    let modficationSinceLastCheck = lastModification < mostRecentModification
+
+    if modficationSinceLastCheck {
+      self.lastModification = mostRecentModification
+    }
+
+    return modficationSinceLastCheck
+  }
+
   let client = Yelp.Client()
   let bookmarkRepository = BookmarkRepository.sharedInstance
+  var lastModification   = 0.0
 
-  var needsReload = true
+  var progressIndicator: ProgressIndicator!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    progressIndicator = ProgressIndicator(view: view)
+
     prepareTableView()
   }
 
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    // TODO Only execute this if bookmarks have changed since the last time
-    // this view was loaded
+
     loadBookmarks()
   }
 
-  func loadBookmarks() {
+  func loadBookmarks(completion: ([Yelp.Business] -> ())? = .None) {
     if needsReload {
+      progressIndicator.loading()
+
       let businessIds = bookmarkRepository.list().map { $0.businessId }
 
       client.businessesWithIds(businessIds) { businesses in
+        completion?(businesses)
+        self.progressIndicator.dismiss()
+
         self.businesses = businesses
-        self.needsReload = false
+        self.reloadData()
       }
     }
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
   }
 
   func reloadData() {
@@ -69,7 +86,6 @@ class BookmarksViewController: UITableViewController {
   }
 
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
     let cell = tableView.dequeueReusableCellWithIdentifier(
       BusinessCell.identifier,
       forIndexPath: indexPath

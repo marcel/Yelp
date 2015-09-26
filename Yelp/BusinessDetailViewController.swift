@@ -28,7 +28,7 @@ class BusinessDetailViewController: UIViewController {
 
   var formatter: Yelp.Business.Formatter!
   let bookmarkRepository = BookmarkRepository.sharedInstance
-
+  var progressIndicator: ProgressIndicator!
   let client = Yelp.Client()
 
   @IBOutlet weak var addressLabel: UILabel!
@@ -49,6 +49,7 @@ class BusinessDetailViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    progressIndicator = ProgressIndicator(view: view)
     businessNameNavigationBarItem.title = business.name
 
 //    setupInformationView()
@@ -110,10 +111,10 @@ class BusinessDetailViewController: UIViewController {
 
   func loadReviews() {
     print("Loading reviews for business \(business.id)")
-//    displayProgressIndicatorWithMessage("Loading...")
+      progressIndicator.loading()
 
     client.reviewsForBusiness(business) { (reviews, error) in
-//      self.progressIndicator.dismissAnimated(true)
+      self.progressIndicator.dismiss()
 
       if let reviews = reviews where !reviews.isEmpty {
         UIView.animateWithDuration(
@@ -160,10 +161,10 @@ class BusinessDetailViewController: UIViewController {
     reviewContainerView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
 
     let layer = reviewContainerView.layer
-    layer.shadowOpacity = 0.4
+    layer.shadowRadius  = 2.0
+    layer.shadowOpacity = 0.2
     layer.shadowColor   = UIColor.blackColor().CGColor
     layer.shadowOffset  = CGSizeMake(1,1)
-    layer.shadowRadius  = 5
     layer.masksToBounds = false
   }
 

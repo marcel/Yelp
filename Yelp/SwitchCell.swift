@@ -23,6 +23,13 @@ class SwitchCell: UITableViewCell {
   struct Value: Hashable {
     let display: String
     let raw: AnyObject
+    let enabledByDefault: Bool
+
+    init(display: String, raw: AnyObject, enabledByDefault: Bool = false) {
+      self.display          = display
+      self.raw              = raw
+      self.enabledByDefault = enabledByDefault
+    }
 
     var hashValue: Int {
       return display.hashValue
@@ -34,7 +41,10 @@ class SwitchCell: UITableViewCell {
       valueDisplayLabel.text = value.display
     }
   }
+
   weak var delegate: SwitchCellDelegate?
+
+  var section: Int?
 
   @IBOutlet weak var onSwitch: UISwitch!
   @IBOutlet weak var valueDisplayLabel: UILabel!

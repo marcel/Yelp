@@ -8,12 +8,12 @@
 
 import UIKit
 import MapKit
-import JGProgressHUD
 
 class BusinessesViewController: UITableViewController,
   FiltersViewControllerDelegate,
   UISearchControllerDelegate,
   UISearchBarDelegate {
+  typealias SearchQuery = Yelp.Client.SearchQuery
 
   enum Segue: String {
     case Filters
@@ -27,14 +27,14 @@ class BusinessesViewController: UITableViewController,
   }
 
   let client = Yelp.Client()
-
-  let progressIndicator     = JGProgressHUD(style: JGProgressHUDStyle.ExtraLight)
-  let errorMessageIndicator = JGProgressHUD(style: JGProgressHUDStyle.Dark)
-
+  var progressIndicator: ProgressIndicator!
   var searchController: UISearchController!
+  var currentQuery: SearchQuery = SearchQuery()
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.progressIndicator = ProgressIndicator(view: view)
+
     prepareTableView()
 //    CLLocationManager.requestAlwaysAuthorization
     self.searchController = UISearchController(searchResultsController: nil)
@@ -46,34 +46,31 @@ class BusinessesViewController: UITableViewController,
     performSearch()
   }
 
-  func displayProgressIndicatorWithMessage(message: String) {
-    progressIndicator.minimumDisplayTime = 0.75
-    progressIndicator.textLabel.text = message
-    progressIndicator.showInView(view, animated: true)
-  }
+  func performSearch(
+    query: SearchQuery = SearchQuery(),
+    completion: ([Yelp.Business] -> ())? = .None
+  ) {
+    self.currentQuery = query
 
-  func displayErrorMessage(message: String) {
-    errorMessageIndicator.textLabel.text = message
-    errorMessageIndicator.indicatorView = JGProgressHUDErrorIndicatorView()
-    errorMessageIndicator.showInView(view, animated: true)
-    errorMessageIndicator.dismissAfterDelay(2, animated: true)
-  }
+    print("Performing search: \(query)")
+    progressIndicator.loading()
 
-  func performSearch(term: String = "", categories: [Yelp.Category.Alias] = []) {
-    print("Performing search: \(categories)")
-    displayProgressIndicatorWithMessage("Loading...")
-
-    client.search(Yelp.Client.SearchQuery(term: term, categories: categories)) { (businesses, error) in
-      self.progressIndicator.dismissAnimated(true)
+    client.search(query) { (businesses, _) in
+      self.progressIndicator.dismiss()
 
       if let businesses = businesses where !businesses.isEmpty {
-        self.businesses = businesses
+        if let completion = completion {
+          completion(businesses)
+        } else {
+          self.businesses = businesses
+        }
 
         for business in businesses {
           print(business.name)
         }
       } else {
-        self.displayErrorMessage("No Results")
+        completion?([])
+        self.progressIndicator.error("No Results")
       }
     }
   }
@@ -97,15 +94,28 @@ class BusinessesViewController: UITableViewController,
   
   override func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
-    // targetContentOffset.memory.y + scrollView.frame.size.height >= scrollView.contentSize.height
-    print("scrollViewWillEndDragging with content offset ", targetContentOffset.debugDescription)
+    let expectedDestination = targetContentOffset.memory.y + scrollView.frame.size.height
+    let totalHeight = scrollView.contentSize.height
+    let infiniteScrollIntensionThreshold = scrollView.frame.size.height * 0.05 // i.e. 5% of the screen
+
+    print("total height \(totalHeight) vs expected destination \(expectedDestination)")
+
+    if !verticalPaginationInProgress && expectedDestination > (totalHeight + infiniteScrollIntensionThreshold) {
+      print("Paginating")
+      verticalPaginationInProgress = true
+
+      performSearch(currentQuery.copy(offset: businesses.count)) { businesses in
+        self.businesses = self.businesses + businesses
+        self.verticalPaginationInProgress = false
+      }
+    }
   }
 
   // MARK: - UISearchBarDelegate
 
   func searchBarSearchButtonClicked(searchBar: UISearchBar) {
     if let searchTerm = searchBar.text {
-      performSearch(searchTerm)
+      performSearch(SearchQuery(term: searchTerm))
     }
   }
 
@@ -155,10 +165,11 @@ class BusinessesViewController: UITableViewController,
 
   func filtersViewController(
     filtersViewController: FiltersViewController,
-    didUpdateFilters filters: FiltersViewController.CategorySelection
+    didUpdateFiltersForSearchQuery searchQuery: SearchQuery
   ) {
-    print("Updated filters to: \(filters)")
-    performSearch(categories: Array(filters))
+    print("Updated filters to \(searchQuery)")
+
+    performSearch(searchQuery)
   }
     /*
     // Override to support conditional editing of the table view.

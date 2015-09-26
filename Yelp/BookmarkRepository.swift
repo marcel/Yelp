@@ -45,6 +45,7 @@ class BookmarkRepository {
   static let sharedInstance = BookmarkRepository()
 
   typealias Index = NSMutableDictionary // [Yelp.Id: Bookmark]
+  typealias ModificationToken = NSTimeInterval
   static private let emptyIndex: Index = NSMutableDictionary()
 
   enum Key: String {
@@ -53,18 +54,23 @@ class BookmarkRepository {
 
   init() {
     self.index = BookmarkRepository.fetchIndex()
+
+    self.lastModification = list().first.map {
+      $0.createdAt.timeIntervalSince1970
+    } ?? 0
   }
 
   private var index: Index
+  var lastModification: ModificationToken!
 
-  func add(business: Yelp.Business) {
+  func add(business: Yelp.Business) -> ModificationToken {
     index.setObject(Bookmark(business: business).encoded, forKey: business.id)
-    updateStore()
+    return updateStore()
   }
 
-  func remove(business: Yelp.Business) {
+  func remove(business: Yelp.Business) -> ModificationToken {
     index.removeObjectForKey(business.id)
-    updateStore()
+    return updateStore()
   }
 
   func isBookmarked(business: Yelp.Business) -> Bool {
@@ -83,9 +89,13 @@ class BookmarkRepository {
     }
   }
 
-  private func updateStore() {
+  private func updateStore() -> ModificationToken {
+    self.lastModification = NSDate().timeIntervalSince1970
+
     let archivedIndex = NSKeyedArchiver.archivedDataWithRootObject(index)
     BookmarkRepository.store.setObject(archivedIndex, forKey: Key.Index.rawValue)
+
+    return lastModification
   }
 
   private var archivedIndex: NSData {
