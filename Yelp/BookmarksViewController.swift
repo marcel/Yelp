@@ -101,10 +101,25 @@ class BookmarksViewController: UITableViewController {
     return businesses[indexPath.row]
   }
 
+  enum Segue: String {
+    case MapView
+    case DetailView
+  }
+
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    let tappedCell = sender as! BusinessCell
-    let detailsViewController = segue.destinationViewController as! BusinessDetailViewController
-    detailsViewController.business = tappedCell.business
+    switch segue.identifier {
+    case Segue.DetailView.rawValue?:
+      let tappedCell = sender as! BusinessCell
+      let detailsViewController = segue.destinationViewController as! BusinessDetailViewController
+      detailsViewController.business = tappedCell.business
+    case Segue.MapView.rawValue?:
+      let navigationController = segue.destinationViewController as! UINavigationController
+      let mapViewController =  navigationController.viewControllers.first! as! MapViewController
+
+      mapViewController.businesses = businesses
+    default:
+      ()
+    }
   }
 }
 

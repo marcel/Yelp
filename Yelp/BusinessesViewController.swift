@@ -18,6 +18,7 @@ class BusinessesViewController: UITableViewController,
   enum Segue: String {
     case Filters
     case DetailView
+    case MapView
   }
 
   var businesses: [Yelp.Business] = [] {
@@ -158,6 +159,11 @@ class BusinessesViewController: UITableViewController,
         let tappedCell = sender as! BusinessCell
         let detailsViewController = segue.destinationViewController as! BusinessDetailViewController
         detailsViewController.business = tappedCell.business
+      case Segue.MapView.rawValue?:
+        let navigationController = segue.destinationViewController as! UINavigationController
+        let mapViewController =  navigationController.viewControllers.first! as! MapViewController
+
+        mapViewController.businesses = businesses
       default:
         ()
     }
