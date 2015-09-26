@@ -8,4 +8,7 @@
 
 import Foundation
 
-struct Yelp {} // Namespace
+struct Yelp {
+  typealias CountryCode = String
+  typealias Id = String
+}

@@ -8,7 +8,6 @@
 
 import UIKit
 
-@IBDesignable
 class BusinessCell: UITableViewCell {
   static let identifier = "BusinessCell"
   static let defaultThumbnailImage = UIImage(named: "business_90_square.png")
@@ -32,14 +31,15 @@ class BusinessCell: UITableViewCell {
 
       setThumbnailOrDefault() 
       ratingImageView.setImageWithURL(business.ratingImageUrl.url)
+      bookmarkIndicatorIcon.hidden = !BookmarkRepository.sharedInstance.isBookmarked(business)
 
-      let formatting = Formatting(business: business)
+      let formatter = Yelp.Business.Formatter(business: business)
 
-      nameLabel.text       = formatting.nameWithResultNumber(resultNumber)
-      distanceLabel.text   = formatting.distanceInMiles
-      reviewsCount.text    = formatting.reviewCount
-      categoriesLabel.text = formatting.categories
-      addressLabel.text    = formatting.address
+      nameLabel.text       = formatter.nameWithResultNumber(resultNumber)
+      distanceLabel.text   = formatter.distanceInMiles
+      reviewsCount.text    = formatter.reviewCount
+      categoriesLabel.text = formatter.categories
+      addressLabel.text    = formatter.address
     }
   }
 
@@ -59,6 +59,7 @@ class BusinessCell: UITableViewCell {
   @IBOutlet weak var reviewsCount: UILabel!
   @IBOutlet weak var addressLabel: UILabel!
   @IBOutlet weak var categoriesLabel: UILabel!
+  @IBOutlet weak var bookmarkIndicatorIcon: UIImageView!
 
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -77,44 +78,10 @@ class BusinessCell: UITableViewCell {
   }
 
   private func setThumbnailOrDefault() {
-    if let thumbnailUrl = business.imageUrl?.url {
+    if let thumbnailUrl = business.thumbnailUrl?.url {
       thumbnailImageView.setImageWithURL(thumbnailUrl)
     } else {
       thumbnailImageView.image = BusinessCell.defaultThumbnailImage
-    }
-  }
-
-  struct Formatting {
-    let business: Yelp.Business
-    let separator = ", "
-
-    func nameWithResultNumber(number: Int) -> String {
-      return "\(number). \(business.name)"
-    }
-
-    var distanceInMiles: String {
-      let distance = business.distanceInMiles
-      return String(format: "%0.2f mi", arguments: [distance])
-    }
-
-    var reviewCount: String {
-      let count = business.reviewCount
-      let countNoun = count == 1 ? "review" : "reviews"
-      return "\(count) \(countNoun)"
-    }
-
-    var categories: String {
-      return business.categories.map {
-        $0.name
-      }.joinWithSeparator(separator)
-    }
-
-    var address: String {
-      let addresses         = business.addresses
-      let neighborhoods     = business.neighborhoods
-      let addressComponents = [addresses.first, neighborhoods.first]
-
-      return addressComponents.flatMap { $0 }.joinWithSeparator(separator)
     }
   }
 }

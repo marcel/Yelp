@@ -1,3 +1,5 @@
+- persist filter selections if you return to the filter page
+- Ability to select favorite categories which if selected appear at the top of the list
 - Handle network error or no network connection
 - Sorting results
 - Tab to browse categories

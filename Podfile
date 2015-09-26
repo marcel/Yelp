@@ -4,6 +4,8 @@
 target 'Yelp' do
   pod 'AFNetworking'
   pod 'BDBOAuth1Manager'
+  pod 'JGProgressHUD'
+  use_frameworks!
 end
 
 target 'YelpTests' do
