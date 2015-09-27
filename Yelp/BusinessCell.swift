@@ -8,6 +8,37 @@
 
 import UIKit
 
+struct BookmarkRowAction {
+  static func tableView(
+    tableView: UITableView,
+    bookmarkActionForRowAtIndexPath indexPath: NSIndexPath,
+    business: Yelp.Business
+  ) -> UITableViewRowAction {
+    let bookmarkRepository = BookmarkRepository.sharedInstance
+    let actionTitle = bookmarkRepository.isBookmarked(business) ? "Remove Bookmark" : "Add Bookmark"
+
+    let bookmarkAction = UITableViewRowAction(
+      style: UITableViewRowActionStyle.Normal,
+      title: actionTitle,
+      handler: { (action, indexPath) in
+        print("Handler run for row \(indexPath.row)")
+
+        bookmarkRepository.toggleState(business)
+
+        tableView.setEditing(false, animated: true)
+        tableView.reloadRowsAtIndexPaths(
+          [indexPath],
+          withRowAnimation: UITableViewRowAnimation.Fade
+        )
+      }
+    )
+
+    bookmarkAction.backgroundColor = UIColor(red: 192/255.0, green: 37/255.0, blue: 37/255.0, alpha: 1)
+
+    return bookmarkAction
+  }
+}
+
 class BusinessCell: UITableViewCell {
   static let identifier = "BusinessCell"
   static let defaultThumbnailImage = UIImage(named: "business_90_square.png")

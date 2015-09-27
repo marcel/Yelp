@@ -53,11 +53,13 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-Yelp/AFNetworking.framework'
+  install_framework 'Pods-Yelp/Alamofire.framework'
   install_framework 'Pods-Yelp/BDBOAuth1Manager.framework'
   install_framework 'Pods-Yelp/JGProgressHUD.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-Yelp/AFNetworking.framework'
+  install_framework 'Pods-Yelp/Alamofire.framework'
   install_framework 'Pods-Yelp/BDBOAuth1Manager.framework'
   install_framework 'Pods-Yelp/JGProgressHUD.framework'
 fi

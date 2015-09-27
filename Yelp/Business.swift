@@ -107,16 +107,18 @@ extension Yelp {
     private init(payload: Payload) {
       self.payload = payload
 
-      self.id              = payload.id
-      self.name            = payload.name
-      self.location        = payload.location!
-      self.thumbnailUrl    = payload.imageUrl
-      self.ratingImageUrl  = payload.ratingImageUrl!
-      self.distanceInMiles = payload.distanceInMiles
-      self.reviewCount     = payload.reviewCount!
-      self.categories      = payload.categories
-      self.isClosed        = payload.isClosed
-      self.fullSizeImageUrl = payload.imageUrl.map { Business.changeFileInUrl($0, toFileName: "o.jpg") }
+      self.id               = payload.id
+      self.name             = payload.name
+      self.location         = payload.location!
+      self.thumbnailUrl     = payload.imageUrl
+      self.ratingImageUrl   = payload.ratingImageUrl!
+      self.distanceInMiles  = payload.distanceInMiles
+      self.reviewCount      = payload.reviewCount!
+      self.categories       = payload.categories
+      self.isClosed         = payload.isClosed
+      self.fullSizeImageUrl = payload.imageUrl.map {
+        Business.changeFileInUrl($0, toFileName: "o.jpg")
+      }
     }
 
     convenience init(dictionary: NSDictionary) {
@@ -126,6 +128,10 @@ extension Yelp {
     static private func changeFileInUrl(url: SecureURL, toFileName: String) -> SecureURL {
       let path = url.url.URLByDeletingLastPathComponent!
       return SecureURL(string: "\(path.absoluteString)\(toFileName)")
+    }
+
+    var formatter: Formatter {
+      return Formatter(business: self)
     }
 
     struct Formatter {

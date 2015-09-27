@@ -9,10 +9,11 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: BusinessesTableViewController, MKMapViewDelegate {
 
   @IBOutlet weak var businessMapView: MKMapView!
-  var businesses: [Yelp.Business]!
+
+  var pointAnnotations: [MKPointAnnotation]!
   
   @IBAction func listButtonTapped(sender: AnyObject) {
     dismissViewControllerAnimated(true, completion: nil)
@@ -20,33 +21,37 @@ class MapViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    styleMap()
+
+    self.pointAnnotations = businesses.map {
+      pointAnnotationForBusiness($0)
+    }
+
     annotateMap()
   }
 
-  func annotateMap() {
-    businesses.forEach { business in
-      annotateMapWithBusiness(business)
-    }
-
-    let businessCoordinates = businesses.map {
-      locationCoordinateForBusiness($0)
-    }
-
-    let midPoint = MapViewController.middlePointOfListMarkers(businessCoordinates)
-
-//    let delta = 0.002 // 0.001 looks to be about 1 block radious
-    let delta = 0.01 // 0.001 looks to be about 1 block radious
-    let span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
-    // TODO Figure out the right center amongst all the locations
-     businessMapView.region = MKCoordinateRegion(center: midPoint, span: span)
+  func styleMap() {
+    let layer = businessMapView.layer
+    layer.cornerRadius  = 6.0
   }
 
-  func annotateMapWithBusiness(business: Yelp.Business) {
+  func annotateMap() {
+    pointAnnotations.forEach { annotation in
+      businessMapView.addAnnotation(annotation)
+    }
+
+    zoomMapViewToFitAnnotations(pointAnnotations)
+  }
+
+  func pointAnnotationForBusiness(business: Yelp.Business) -> MKPointAnnotation {
     let location = locationCoordinateForBusiness(business)
-    let businessCoordinateAnnotation = MKPointAnnotation()
-    businessCoordinateAnnotation.coordinate = location
-    businessCoordinateAnnotation.title = business.name
-    businessMapView.addAnnotation(businessCoordinateAnnotation)
+
+    let businessPointAnnotation        = MKPointAnnotation()
+    businessPointAnnotation.coordinate = location
+    businessPointAnnotation.title      = business.name
+    businessPointAnnotation.subtitle   = business.formatter.address
+
+    return businessPointAnnotation
   }
 
   func locationCoordinateForBusiness(business: Yelp.Business) -> CLLocationCoordinate2D {
@@ -57,71 +62,81 @@ class MapViewController: UIViewController {
   }
 
   override func didReceiveMemoryWarning() {
-      super.didReceiveMemoryWarning()
-      // Dispose of any resources that can be recreated.
+    super.didReceiveMemoryWarning()
   }
 
-  class func degreeToRadian(angle:CLLocationDegrees) -> CGFloat{
-
-    return (  (CGFloat(angle)) / 180.0 * CGFloat(M_PI)  )
-
-  }
-
-  //        /** Radians to Degrees **/
-
-  class func radianToDegree(radian:CGFloat) -> CLLocationDegrees{
-
-    return CLLocationDegrees(  radian * CGFloat(180.0 / M_PI)  )
-
-  }
-
-  class func middlePointOfListMarkers(listCoords: [CLLocationCoordinate2D]) -> CLLocationCoordinate2D{
-
-    var x = 0.0 as CGFloat
-
-    var y = 0.0 as CGFloat
-
-    var z = 0.0 as CGFloat
-
-
-
-    for coordinate in listCoords{
-
-      var lat:CGFloat = degreeToRadian(coordinate.latitude)
-
-      var lon:CGFloat = degreeToRadian(coordinate.longitude)
-
-      x = x + cos(lat) * cos(lon)
-
-      y = y + cos(lat) * sin(lon);
-
-      z = z + sin(lat);
-
+  func zoomMapViewToFitAnnotations(annotations: [MKPointAnnotation]) {
+    guard !annotations.isEmpty else {
+      return
     }
 
-    x = x/CGFloat(listCoords.count)
+    let annotationRegionPadFactor = 1.25
 
-    y = y/CGFloat(listCoords.count)
+    let minimumZoomArc = 0.002 // 0.001 looks to be about 1 block radious (1 degree of arc ~= 69 miles)
+    let maxDegreesArc  = 360.0
 
-    z = z/CGFloat(listCoords.count)
+    let mapPoints = annotations.map { MKMapPointForCoordinate($0.coordinate) }
+    let mapRect = MKPolygon(points: UnsafeMutablePointer(mapPoints), count: mapPoints.count).boundingMapRect
+    var region = MKCoordinateRegionForMapRect(mapRect)
+
+    // If there is only 1 point we want the max zoom-in instead of max zoom-out
+    if annotations.count == 1 {
+      region.span.latitudeDelta  = minimumZoomArc
+      region.span.longitudeDelta = minimumZoomArc
+    } else {
+      // Padding so pins aren't scrunched on the edges
+      // ...but padding can't be bigger than the world
+      region.span.latitudeDelta  = min(maxDegreesArc, region.span.latitudeDelta  * annotationRegionPadFactor)
+      region.span.longitudeDelta = min(maxDegreesArc, region.span.longitudeDelta * annotationRegionPadFactor)
+
+      // ...and don't zoom in stupid-close on small samples
+      region.span.latitudeDelta  = max(minimumZoomArc, region.span.latitudeDelta)
+      region.span.longitudeDelta = max(minimumZoomArc, region.span.longitudeDelta)
+    }
+
+    businessMapView.setRegion(region, animated: true)
+  }
+
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    let annotationForRow = pointAnnotations[indexPath.row]
+
+    let alreadySelected = businessMapView.selectedAnnotations.reduce(false) { (didFindAnnotation, annotation) in
+      return (didFindAnnotation || annotation.isEqual(annotationForRow))
+    }
+
+    if alreadySelected {
+      businessMapView.deselectAnnotation(annotationForRow, animated: true)
+      tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    } else {
+      businessMapView.selectAnnotation(annotationForRow, animated: true)
+    }
+  }
+
+  // MARK: - MKMapViewDelegate
+
+  func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
+    annotationView.annotation = annotation
+    annotationView.canShowCallout = true
+//    annotationView.animatesDrop = true
 
 
+    annotationView.rightCalloutAccessoryView = UIButton(type: UIButtonType.DetailDisclosure)
 
-    var resultLon: CGFloat = atan2(y, x)
+    return annotationView
+  }
 
-    var resultHyp: CGFloat = sqrt(x*x+y*y)
+  func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    let annotationIndex = pointAnnotations.indexOf(view.annotation as! MKPointAnnotation)!
+    let business = businesses[annotationIndex]
 
-    var resultLat:CGFloat = atan2(z, resultHyp)
+    print("Callout tapped \(view) \(control) \(business)")
+    performSegueWithIdentifier("DetailView", sender: business)
+  }
 
-
-
-    var newLat = radianToDegree(resultLat)
-
-    var newLon = radianToDegree(resultLon)
-
-    var result:CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: newLat, longitude: newLon)
-
-    return result
-
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    let business = sender as! Yelp.Business
+    let detailViewController = segue.destinationViewController as! BusinessDetailViewController
+    detailViewController.business = business
   }
 }

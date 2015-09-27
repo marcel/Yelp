@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import JGProgressHUD
 
-class BookmarksViewController: UITableViewController {
-
-  var businesses: [Yelp.Business] = [] {
+class BookmarksViewController: BusinessesTableViewController {
+  override var businesses: [Yelp.Business]! {
     didSet {
       reloadData()
     }
   }
+
+  @IBOutlet weak var tableView: UITableView!
 
   var needsReload: Bool {
     let mostRecentModification    = BookmarkRepository.sharedInstance.lastModification
@@ -31,13 +33,9 @@ class BookmarksViewController: UITableViewController {
   let bookmarkRepository = BookmarkRepository.sharedInstance
   var lastModification   = 0.0
 
-  var progressIndicator: ProgressIndicator!
-
   override func viewDidLoad() {
     super.viewDidLoad()
-    progressIndicator = ProgressIndicator(view: view)
-
-    prepareTableView()
+    self.businesses = []
   }
 
   override func viewWillAppear(animated: Bool) {
@@ -48,17 +46,27 @@ class BookmarksViewController: UITableViewController {
 
   func loadBookmarks(completion: ([Yelp.Business] -> ())? = .None) {
     if needsReload {
-      progressIndicator.loading()
-
       let businessIds = bookmarkRepository.list().map { $0.businessId }
 
-      client.businessesWithIds(businessIds) { businesses in
+      progressIndicator.startDeterminateProgressUpTo(
+        Float(businessIds.count),
+        withMessage: "Loading \(businessIds.count) Bookmarks..."
+      )
+
+      client.businessesWithIds(businessIds, completion: { businesses in
         completion?(businesses)
-        self.progressIndicator.dismiss()
+        self.progressIndicator.endDeterminateProgress(withMessage: "Done")
 
         self.businesses = businesses
         self.reloadData()
-      }
+      },
+        perBusinessCompletion: { _ in
+          self.progressIndicator.incrementDeterminateProgress(
+            by: 1,
+            withMessage: "\(Int(self.progressIndicator.determinateProgressTracker)) complete"
+          )
+        }
+      )
     }
   }
 
@@ -68,37 +76,6 @@ class BookmarksViewController: UITableViewController {
 
   func reloadData() {
     tableView.reloadData()
-  }
-
-  func prepareTableView() {
-    tableView.rowHeight          = UITableViewAutomaticDimension
-    tableView.estimatedRowHeight = 120
-  }
-
-  // MARK: - Table view data source
-
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 1
-  }
-
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return businesses.count
-  }
-
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(
-      BusinessCell.identifier,
-      forIndexPath: indexPath
-      ) as! BusinessCell
-    cell.separatorInset = UIEdgeInsetsZero
-
-    cell.result = (indexPath.row + 1, businessAtIndexPath(indexPath))
-
-    return cell
-  }
-
-  func businessAtIndexPath(indexPath: NSIndexPath) -> Yelp.Business {
-    return businesses[indexPath.row]
   }
 
   enum Segue: String {

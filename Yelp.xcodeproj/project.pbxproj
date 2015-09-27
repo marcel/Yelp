@@ -15,7 +15,7 @@
 		1F2C26301BB11B0800B3A4F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F2C262E1BB11B0800B3A4F9 /* LaunchScreen.storyboard */; };
 		1F2C263B1BB11B0800B3A4F9 /* YelpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C263A1BB11B0800B3A4F9 /* YelpTests.swift */; };
 		1F2C26461BB11B0800B3A4F9 /* YelpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C26451BB11B0800B3A4F9 /* YelpUITests.swift */; };
-		1F2C26541BB11EA700B3A4F9 /* BusinessesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C26531BB11EA700B3A4F9 /* BusinessesViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		1F2C26541BB11EA700B3A4F9 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C26531BB11EA700B3A4F9 /* SearchResultsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		1F2C26571BB11F1100B3A4F9 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C26561BB11F1100B3A4F9 /* BusinessCell.swift */; settings = {ASSET_TAGS = (); }; };
 		1F2C265B1BB11FD100B3A4F9 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2C265A1BB11FD100B3A4F9 /* Business.swift */; settings = {ASSET_TAGS = (); }; };
 		1F3892D21BB6B99400AAD5E7 /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F3892D01BB6B99400AAD5E7 /* map@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -23,6 +23,8 @@
 		1F3892D61BB6BB6B00AAD5E7 /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F3892D41BB6BB6B00AAD5E7 /* list@2x.png */; settings = {ASSET_TAGS = (); }; };
 		1F3892D71BB6BB6B00AAD5E7 /* list.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F3892D51BB6BB6B00AAD5E7 /* list.png */; settings = {ASSET_TAGS = (); }; };
 		1F3892D91BB6BBAB00AAD5E7 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3892D81BB6BBAB00AAD5E7 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		1F3892DD1BB7807C00AAD5E7 /* BusinessesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3892DC1BB7807C00AAD5E7 /* BusinessesTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		1F3892DF1BB7B0E900AAD5E7 /* BusinessImageUrlFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3892DE1BB7B0E900AAD5E7 /* BusinessImageUrlFetcher.swift */; settings = {ASSET_TAGS = (); }; };
 		1F554B621BB6506200324E44 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F554B611BB6506200324E44 /* SwitchCell.swift */; settings = {ASSET_TAGS = (); }; };
 		1F6D9F401BB14B4600443A53 /* SecureURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D9F3F1BB14B4600443A53 /* SecureURL.swift */; settings = {ASSET_TAGS = (); }; };
 		1F6D9F451BB1E84800443A53 /* categories.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F6D9F441BB1E84800443A53 /* categories.json */; settings = {ASSET_TAGS = (); }; };
@@ -44,6 +46,7 @@
 		1F8D6DCF1BB4F183008169A9 /* phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D6DCE1BB4F183008169A9 /* phone.png */; settings = {ASSET_TAGS = (); }; };
 		1F9084281BB120BB00002612 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9084271BB120BB00002612 /* Client.swift */; settings = {ASSET_TAGS = (); }; };
 		1F90842A1BB122F200002612 /* Yelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9084291BB122F200002612 /* Yelp.swift */; settings = {ASSET_TAGS = (); }; };
+		1FA29D881BB7CA8700AF63C3 /* ImageGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA29D871BB7CA8700AF63C3 /* ImageGridCell.swift */; settings = {ASSET_TAGS = (); }; };
 		1FD212E61BB41E1C000C2A6B /* SecureURLTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD212E51BB41E1C000C2A6B /* SecureURLTest.swift */; settings = {ASSET_TAGS = (); }; };
 		1FDBFD5F1BB6937A0091F0AF /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDBFD5E1BB6937A0091F0AF /* ProgressIndicator.swift */; settings = {ASSET_TAGS = (); }; };
 		1FDBFD651BB6A37F0091F0AF /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDBFD621BB6A37F0091F0AF /* logo@3x.png */; settings = {ASSET_TAGS = (); }; };
@@ -90,7 +93,7 @@
 		1F2C26411BB11B0800B3A4F9 /* YelpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YelpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F2C26451BB11B0800B3A4F9 /* YelpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YelpUITests.swift; sourceTree = "<group>"; };
 		1F2C26471BB11B0800B3A4F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1F2C26531BB11EA700B3A4F9 /* BusinessesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessesViewController.swift; sourceTree = "<group>"; };
+		1F2C26531BB11EA700B3A4F9 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		1F2C26561BB11F1100B3A4F9 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		1F2C265A1BB11FD100B3A4F9 /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		1F3892D01BB6B99400AAD5E7 /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
@@ -98,6 +101,8 @@
 		1F3892D41BB6BB6B00AAD5E7 /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@2x.png"; sourceTree = "<group>"; };
 		1F3892D51BB6BB6B00AAD5E7 /* list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = list.png; sourceTree = "<group>"; };
 		1F3892D81BB6BBAB00AAD5E7 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		1F3892DC1BB7807C00AAD5E7 /* BusinessesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessesTableViewController.swift; sourceTree = "<group>"; };
+		1F3892DE1BB7B0E900AAD5E7 /* BusinessImageUrlFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessImageUrlFetcher.swift; sourceTree = "<group>"; };
 		1F554B611BB6506200324E44 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		1F6D9F3F1BB14B4600443A53 /* SecureURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureURL.swift; sourceTree = "<group>"; };
 		1F6D9F441BB1E84800443A53 /* categories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = categories.json; sourceTree = "<group>"; };
@@ -120,6 +125,7 @@
 		1F9084241BB120A500002612 /* Yelp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Yelp-Bridging-Header.h"; sourceTree = "<group>"; };
 		1F9084271BB120BB00002612 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		1F9084291BB122F200002612 /* Yelp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yelp.swift; sourceTree = "<group>"; };
+		1FA29D871BB7CA8700AF63C3 /* ImageGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGridCell.swift; sourceTree = "<group>"; };
 		1FD212E51BB41E1C000C2A6B /* SecureURLTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureURLTest.swift; sourceTree = "<group>"; };
 		1FDBFD5E1BB6937A0091F0AF /* ProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 		1FDBFD621BB6A37F0091F0AF /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@3x.png"; sourceTree = "<group>"; };
@@ -227,12 +233,13 @@
 			isa = PBXGroup;
 			children = (
 				1F3892D81BB6BBAB00AAD5E7 /* MapViewController.swift */,
-				1F2C26531BB11EA700B3A4F9 /* BusinessesViewController.swift */,
+				1F2C26531BB11EA700B3A4F9 /* SearchResultsViewController.swift */,
 				1F2C26271BB11B0800B3A4F9 /* BookmarksViewController.swift */,
 				1F6D9F561BB2260500443A53 /* FiltersViewController.swift */,
 				1F1CEC091BB26820006DBF56 /* BusinessDetailViewController.swift */,
 				1F8D6DC91BB4ED18008169A9 /* BusinessInformationTableViewController.swift */,
 				1FDBFD6E1BB6ADD80091F0AF /* CategoriesViewController.swift */,
+				1F3892DC1BB7807C00AAD5E7 /* BusinessesTableViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -245,6 +252,7 @@
 				1F8D6DCB1BB4EDE9008169A9 /* BusinessInformationCell.swift */,
 				1F554B611BB6506200324E44 /* SwitchCell.swift */,
 				1FDBFD701BB6AEA40091F0AF /* CategoryCell.swift */,
+				1FA29D871BB7CA8700AF63C3 /* ImageGridCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -333,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				1FDBFD5E1BB6937A0091F0AF /* ProgressIndicator.swift */,
+				1F3892DE1BB7B0E900AAD5E7 /* BusinessImageUrlFetcher.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -561,7 +570,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F2C26541BB11EA700B3A4F9 /* BusinessesViewController.swift in Sources */,
+				1F2C26541BB11EA700B3A4F9 /* SearchResultsViewController.swift in Sources */,
+				1F3892DD1BB7807C00AAD5E7 /* BusinessesTableViewController.swift in Sources */,
 				1F1CEC0A1BB26820006DBF56 /* BusinessDetailViewController.swift in Sources */,
 				1F2C26571BB11F1100B3A4F9 /* BusinessCell.swift in Sources */,
 				1F2C26281BB11B0800B3A4F9 /* BookmarksViewController.swift in Sources */,
@@ -582,6 +592,8 @@
 				1F8D6DC81BB4D795008169A9 /* ReviewView.swift in Sources */,
 				1F554B621BB6506200324E44 /* SwitchCell.swift in Sources */,
 				1F8D6DCC1BB4EDE9008169A9 /* BusinessInformationCell.swift in Sources */,
+				1F3892DF1BB7B0E900AAD5E7 /* BusinessImageUrlFetcher.swift in Sources */,
+				1FA29D881BB7CA8700AF63C3 /* ImageGridCell.swift in Sources */,
 				1F6D9F591BB22E2B00443A53 /* Category.swift in Sources */,
 				1FDBFD711BB6AEA40091F0AF /* CategoryCell.swift in Sources */,
 			);

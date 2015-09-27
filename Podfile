@@ -5,6 +5,7 @@ target 'Yelp' do
   pod 'AFNetworking'
   pod 'BDBOAuth1Manager'
   pod 'JGProgressHUD'
+  pod 'Alamofire'
   use_frameworks!
 end
 

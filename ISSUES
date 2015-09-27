@@ -1,3 +1,5 @@
+- Couldn't figure out how to embed a table view of variable length between elemetns as a layout device that would be layed out depending on its content
 - To reuse a cell in another table view is there a better way than copying and pasting? Would designing it in its own xib be the right approach? How would it then be loaded into each table view with minimal code boiler plate?
 - Review excerpt animation isn't smooth
-- AutoLayout won't seem to let me set a constraint on the top margin between a UILabel and an MKMapView
+- [SOLVED] AutoLayout won't seem to let me set a constraint on the top margin between a UILabel and an MKMapView (this was an issue with overlapping views)
+

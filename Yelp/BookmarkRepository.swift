@@ -73,6 +73,16 @@ class BookmarkRepository {
     return updateStore()
   }
 
+  func toggleState(business: Yelp.Business) -> Bool {
+    if isBookmarked(business) {
+      remove(business)
+      return false
+    } else {
+      add(business)
+      return true
+    }
+  }
+
   func isBookmarked(business: Yelp.Business) -> Bool {
     return index.objectForKey(business.id) != nil
   }

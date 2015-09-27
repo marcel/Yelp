@@ -9,11 +9,23 @@
 import UIKit
 import MapKit
 
-class BusinessDetailViewController: UIViewController {
+class BusinessDetailViewController: UIViewController,
+  UICollectionViewDataSource, UICollectionViewDelegate {
 
   var business: Yelp.Business! {
     didSet {
-      self.formatter = Yelp.Business.Formatter(business: business)
+      imageFetcher.fetchImageUrlsForBusiness(business) { urls in
+        self.imageUrls = urls
+      }
+    }
+  }
+
+  var imageUrls: [NSURL] = [] {
+    didSet {
+      print("Setting image urls for detail view: \(imageUrls.map { $0.absoluteString })")
+
+      // TODO Just fade in each image in its completion callback
+      imageGrid.reloadData()
     }
   }
 
@@ -26,11 +38,14 @@ class BusinessDetailViewController: UIViewController {
     }
   }
 
-  var formatter: Yelp.Business.Formatter!
+  let imageFetcher       = BusinessImageUrlFetcher.sharedInstance
   let bookmarkRepository = BookmarkRepository.sharedInstance
-  var progressIndicator: ProgressIndicator!
   let client = Yelp.Client()
 
+  var progressIndicator: ProgressIndicator!
+
+
+  @IBOutlet weak var imageGrid: UICollectionView!
   @IBOutlet weak var addressLabel: UILabel!
   @IBOutlet weak var crossStreetAndNeighborhoodLabel: UILabel!
   @IBOutlet weak var mapView: MKMapView!
@@ -49,7 +64,7 @@ class BusinessDetailViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    progressIndicator = ProgressIndicator(view: view)
+    progressIndicator = ProgressIndicator(view: navigationController!.view)
     businessNameNavigationBarItem.title = business.name
 
 //    setupInformationView()
@@ -111,7 +126,7 @@ class BusinessDetailViewController: UIViewController {
 
   func loadReviews() {
     print("Loading reviews for business \(business.id)")
-      progressIndicator.loading()
+    progressIndicator.loading()
 
     client.reviewsForBusiness(business) { (reviews, error) in
       self.progressIndicator.dismiss()
@@ -131,18 +146,12 @@ class BusinessDetailViewController: UIViewController {
         }
       } else {
         print("No reviews")
-//        self.displayErrorMessage("No Results")
       }
     }
   }
 
   @IBAction func bookmarkButtonPresed(sender: AnyObject) {
-    print("bookmarkButtonPresed")
-    if bookmarkRepository.isBookmarked(business) {
-      bookmarkRepository.remove(business)
-    } else {
-      bookmarkRepository.add(business)
-    }
+    bookmarkRepository.toggleState(business)
 
     setBookmarkButtonState()
   }
@@ -165,7 +174,7 @@ class BusinessDetailViewController: UIViewController {
     layer.shadowOpacity = 0.2
     layer.shadowColor   = UIColor.blackColor().CGColor
     layer.shadowOffset  = CGSizeMake(1,1)
-    layer.masksToBounds = false
+    layer.masksToBounds = true
   }
 
   func setAddressInformation() {
@@ -222,15 +231,15 @@ class BusinessDetailViewController: UIViewController {
   }
 
   func setDistance() {
-    distanceLabel.text = formatter.distanceInMiles
+    distanceLabel.text = business.formatter.distanceInMiles
   }
 
   func setCategories() {
-    categoriesLabel.text = formatter.categories
+    categoriesLabel.text = business.formatter.categories
   }
 
   func setReviewCount() {
-    reviewCountLabel.text = formatter.reviewCount
+    reviewCountLabel.text = business.formatter.reviewCount
   }
 
   func setupInformationView() {
@@ -243,6 +252,24 @@ class BusinessDetailViewController: UIViewController {
 
     //    businessInfoController.business = business
     //    informationView.addSubview(businessInfoController.tableView)
+  }
+
+  // MARK: - UICollectionViewDataSource
+
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return imageUrls.count // TODO Consider just making this 20 explicitly
+  }
+
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(
+      ImageGridCell.identifier,
+      forIndexPath: indexPath
+    ) as! ImageGridCell
+
+    let imageUrl = imageUrls[indexPath.row]
+    cell.imageURL = imageUrl
+
+    return cell
   }
 
 }

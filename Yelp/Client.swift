@@ -207,7 +207,7 @@ extension Yelp {
 
     // Yelp's API does not provide a multi-get endpoint for businesses so we have to
     // scatter gather which in tern requires some explicit synchronization
-    func businessesWithIds(ids: [Id], completion: [Business] -> ()) -> Void {
+    func businessesWithIds(ids: [Id], completion: [Business] -> (), perBusinessCompletion: (Business -> ())? = .None) -> Void {
       let gatheredResults = SynchronizedDictionary<Id, Business>(minimumCapacity: ids.count)
 
       let dispatchGroup = dispatch_group_create()
@@ -218,6 +218,7 @@ extension Yelp {
         self.businessWithId(id, completion: { (business, _) in
             print("Got \(business.id)")
             gatheredResults.updateValue(business, forKey: business.id)
+            perBusinessCompletion?(business)
             dispatch_group_leave(dispatchGroup)
           },
           failure: {
