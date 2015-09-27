@@ -275,13 +275,18 @@ class BusinessDetailViewController: UIViewController,
 
     let imageUrl = imageUrls[indexPath.row]
 
-    cell.setImageUrl(
-      imageUrl,
-      completion: { image in
-        self.imagesByURL[imageUrl] = image
-      },
-      failure: nil
-    )
+    if let imageAlreadyLoaded = imagesByURL[imageUrl] {
+      cell.imageURL = imageUrl
+      cell.imageView.image = imageAlreadyLoaded
+    } else {
+      cell.setImageUrl(
+        imageUrl,
+        completion: { image in
+          self.imagesByURL[imageUrl] = image
+        },
+        failure: nil
+      )
+    }
 
     return cell
   }
