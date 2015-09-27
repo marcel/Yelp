@@ -69,7 +69,7 @@ class BusinessImageUrlFetcher {
   func removeTrailingQueryString(url: NSURL) -> NSURL {
     let urlString = url.absoluteString
 
-    let regex = try! NSRegularExpression(pattern: "\\?.*$", options: [NSRegularExpressionOptions.CaseInsensitive])
+    let regex = try! NSRegularExpression(pattern: "(\\?|%3F|%3D|#).*$", options: [NSRegularExpressionOptions.CaseInsensitive])
     let sanitized = regex.stringByReplacingMatchesInString(
       urlString,
       options: [],
@@ -77,7 +77,10 @@ class BusinessImageUrlFetcher {
       withTemplate: ""
     )
 
-    return NSURL(string: sanitized)!
+    // URL decode
+    let decoded = sanitized.stringByRemovingPercentEncoding!
+
+    return NSURL(string: decoded)!
   }
 
   func indexOfString(subString: String, inString string: String) -> Int {

@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import NYTPhotoViewer
 
 class BusinessDetailViewController: UIViewController,
   UICollectionViewDataSource, UICollectionViewDelegate {
@@ -24,9 +25,14 @@ class BusinessDetailViewController: UIViewController,
     didSet {
       print("Setting image urls for detail view: \(imageUrls.map { $0.absoluteString })")
 
-      // TODO Just fade in each image in its completion callback
-      imageGrid.reloadData()
+      imageGrid?.reloadData()
     }
+  }
+
+  var imagesByURL = Dictionary<NSURL, UIImage>()
+
+  var images: [UIImage] {
+    return imageUrls.flatMap { imagesByURL[$0] }
   }
 
   enum BookmarkIcon: String {
@@ -86,6 +92,7 @@ class BusinessDetailViewController: UIViewController,
       reviewView.excerptLabel.preferredMaxLayoutWidth = reviewView.bounds.width
 //    reviewExcerptView.sizeToFit()
 //    reviewExcerptView.setNeedsDisplay()
+    imageGrid.reloadData()
   }
 
   override func didReceiveMemoryWarning() {
@@ -267,9 +274,36 @@ class BusinessDetailViewController: UIViewController,
     ) as! ImageGridCell
 
     let imageUrl = imageUrls[indexPath.row]
-    cell.imageURL = imageUrl
+
+    cell.setImageUrl(
+      imageUrl,
+      completion: { image in
+        self.imagesByURL[imageUrl] = image
+      },
+      failure: nil
+    )
 
     return cell
   }
 
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    print("Selecting an image from the grid: \(indexPath)")
+    let photos = images.map { Photo(image: $0) }
+    let selectedPhoto = photos[indexPath.row]
+    let photosViewController = NYTPhotosViewController(photos: photos, initialPhoto: selectedPhoto)
+    presentViewController(photosViewController, animated: true, completion: .None)
+  }
+}
+
+class Photo: NSObject, NYTPhoto {
+  @objc var image: UIImage
+  @objc var placeholderImage: UIImage
+  @objc var attributedCaptionTitle = NSAttributedString()
+  @objc var attributedCaptionSummary = NSAttributedString()
+  @objc var attributedCaptionCredit = NSAttributedString()
+
+  init(image: UIImage) {
+    self.image = image
+    self.placeholderImage = image
+  }
 }

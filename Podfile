@@ -6,6 +6,7 @@ target 'Yelp' do
   pod 'BDBOAuth1Manager'
   pod 'JGProgressHUD'
   pod 'Alamofire'
+  pod "NYTPhotoViewer"
   use_frameworks!
 end
 
