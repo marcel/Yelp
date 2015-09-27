@@ -1,3 +1,4 @@
+- Couldn't figure out how to get the review and image grid on the detail page into a scroll view with auto layout
 - Couldn't figure out how to embed a table view of variable length between elemetns as a layout device that would be layed out depending on its content
 - To reuse a cell in another table view is there a better way than copying and pasting? Would designing it in its own xib be the right approach? How would it then be loaded into each table view with minimal code boiler plate?
 - Review excerpt animation isn't smooth

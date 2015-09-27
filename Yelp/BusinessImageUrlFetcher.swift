@@ -60,7 +60,24 @@ class BusinessImageUrlFetcher {
   func foo(urls: [NSURL]) -> [NSURL] {
     let firstComponents = urls.flatMap { NSURLComponents(string: $0.absoluteString)?.queryItems?.first }
     let withImgUrlParam = firstComponents.filter { $0.name == "imgurl" }
-    return withImgUrlParam.flatMap { $0.value }.map { Yelp.SecureURL(string: $0).url }
+    let urls =  withImgUrlParam.flatMap { $0.value }.flatMap { NSURL(string: $0) }
+    // Strip anything after the extension
+
+    return urls.map { removeTrailingQueryString($0) }
+  }
+
+  func removeTrailingQueryString(url: NSURL) -> NSURL {
+    let urlString = url.absoluteString
+
+    let regex = try! NSRegularExpression(pattern: "\\?.*$", options: [NSRegularExpressionOptions.CaseInsensitive])
+    let sanitized = regex.stringByReplacingMatchesInString(
+      urlString,
+      options: [],
+      range: NSMakeRange(0, urlString.characters.count),
+      withTemplate: ""
+    )
+
+    return NSURL(string: sanitized)!
   }
 
   func indexOfString(subString: String, inString string: String) -> Int {

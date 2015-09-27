@@ -15,8 +15,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    // Override point for customization after application launch.
+    configureRequestCache()
+
     return true
+  }
+
+  private func configureRequestCache() {
+    let megabyte = 1024 * 1024
+
+    let cache = NSURLCache(
+      memoryCapacity: megabyte * 20,
+      diskCapacity: megabyte * 200,
+      diskPath: "request-cache"
+    )
+    
+    NSURLCache.setSharedURLCache(cache)
   }
 
   func applicationWillResignActive(application: UIApplication) {
