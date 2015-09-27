@@ -15,6 +15,8 @@ extension Yelp {
   }
   
   struct Location {
+    static let undefined = Location()
+    
     private struct Payload {
       let dictionary: NSDictionary
 
@@ -85,7 +87,11 @@ extension Yelp {
     let countryCode: String    // US
     let neighborhoods: [String]   // Castro
 
-    private init(payload: Payload) {
+    private init?(payload: Payload) {
+      guard let _ = payload.coordinate else {
+        return nil
+      }
+
       self.city          = payload.city
       self.stateCode     = payload.stateCode
       self.addresses     = payload.addresses
@@ -96,8 +102,28 @@ extension Yelp {
       self.neighborhoods = payload.neighborhoods
     }
 
-    init(dictionary: NSDictionary) {
+    init?(dictionary: NSDictionary) {
       self.init(payload: Payload(dictionary: dictionary))
+    }
+    
+    init(
+      addresses: [String]     = [],
+      city: String            = "",
+      stateCode: String       = "",
+      postalCode: String      = "",
+      crossStreets: String    = "",
+      coordinate: Coordinate  = Coordinate(latitude: 0.0, longitude: 0.0),
+      countryCode: String     = "",
+      neighborhoods: [String] = []
+      ) {
+        self.addresses     = addresses
+        self.city          = city
+        self.stateCode     = stateCode
+        self.postalCode    = postalCode
+        self.crossStreets  = crossStreets
+        self.coordinate    = coordinate
+        self.countryCode   = countryCode
+        self.neighborhoods = neighborhoods
     }
 
     var formatter: Location.Formatter {

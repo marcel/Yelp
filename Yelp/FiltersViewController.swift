@@ -35,6 +35,16 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
     let index: Index
     let isTogglable: Bool
     let allowsMultipleSelections: Bool
+
+    func copy(withUpdatedValues updatedValues: [CellValue]) -> Section {
+      return Section(
+        title: title,
+        values: updatedValues,
+        index: index,
+        isTogglable: isTogglable,
+        allowsMultipleSelections: allowsMultipleSelections
+      )
+    }
   }
 
   struct SectionController {
@@ -131,53 +141,9 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
     }
   }
 
-  var sectionController = SectionController(
-    sections: [
-      Section(
-        title: .None,
-        values: [CellValue(display: "Offering a Deal", raw: true)],
-        index: .OnlyDeals,
-        isTogglable: false,
-        allowsMultipleSelections: true
-      ),
-      Section(
-        title: "Distance",
-        values: [
-          CellValue(display: "0.25 miles", raw: SearchQuery.milesToRadius(0.25)),
-          CellValue(display: "1 mile",     raw: SearchQuery.milesToRadius(1)),
-          CellValue(display: "5 miles",    raw: SearchQuery.milesToRadius(5)),
-          CellValue(display: "10 miles",   raw: SearchQuery.milesToRadius(10), enabledByDefault: true),
-          CellValue(display: "25 miles",   raw: SearchQuery.milesToRadius(25))
-        ],
-        index: .Distance,
-        isTogglable: true,
-        allowsMultipleSelections: false
-      ),
-      Section(
-        title: "Sort By",
-        values: [
-          CellValue(display: "Best Match",    raw: SortMode.BestMatched.rawValue),
-          CellValue(display: "Distance",      raw: SortMode.Distance.rawValue, enabledByDefault: true),
-          CellValue(display: "Highest Rated", raw: SortMode.HighestRated.rawValue)
-        ],
-        index: .Sort,
-        isTogglable: true,
-        allowsMultipleSelections: false
-      ),
-      Section(
-        title: "Category",
-        values: Yelp.Category.withParent("restaurants").map { category in
-          CellValue(display: category.title, raw: category.alias)
-        },
-        index: .Category,
-        isTogglable: true,
-        allowsMultipleSelections: true
-      )
-    ]
-  )
+  var sectionController: SectionController!
 
-  var selectedCategories = CategorySelection()
-
+  var contextualSearchQuery: Yelp.Client.SearchQuery?
   var delegate: FiltersViewControllerDelegate?
 
   @IBAction func onCancelButton(sender: AnyObject) {
@@ -194,6 +160,61 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    sectionController = buildSectionController()
+  }
+
+  func buildSectionController() -> SectionController {
+    let categoryParent = contextualSearchQuery.flatMap {
+      $0.categories.first
+    } ?? "restaurants"
+
+    let categoryCells = Yelp.Category.withParent(categoryParent).map { category in
+      CellValue(display: category.title, raw: category.alias)
+    }
+
+    return SectionController(
+      sections: [
+        Section(
+          title: .None,
+          values: [CellValue(display: "Offering a Deal", raw: true)],
+          index: .OnlyDeals,
+          isTogglable: false,
+          allowsMultipleSelections: true
+        ),
+        Section(
+          title: "Distance",
+          values: [
+            CellValue(display: "0.25 miles", raw: SearchQuery.milesToRadius(0.25)),
+            CellValue(display: "1 mile",     raw: SearchQuery.milesToRadius(1)),
+            CellValue(display: "5 miles",    raw: SearchQuery.milesToRadius(5)),
+            CellValue(display: "10 miles",   raw: SearchQuery.milesToRadius(10), enabledByDefault: true),
+            CellValue(display: "25 miles",   raw: SearchQuery.milesToRadius(25))
+          ],
+          index: .Distance,
+          isTogglable: true,
+          allowsMultipleSelections: false
+        ),
+        Section(
+          title: "Sort By",
+          values: [
+            CellValue(display: "Best Match",    raw: SortMode.BestMatched.rawValue),
+            CellValue(display: "Distance",      raw: SortMode.Distance.rawValue, enabledByDefault: true),
+            CellValue(display: "Highest Rated", raw: SortMode.HighestRated.rawValue)
+          ],
+          index: .Sort,
+          isTogglable: true,
+          allowsMultipleSelections: false
+        ),
+        Section(
+          title: "Category",
+          values: categoryCells,
+          index: .Category,
+          isTogglable: true,
+          allowsMultipleSelections: true
+        )
+      ]
+    )
   }
 
   override func didReceiveMemoryWarning() {

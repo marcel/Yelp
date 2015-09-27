@@ -11,7 +11,14 @@ import UIKit
 class CategoryCell: UITableViewCell {
   static let identifier = "CategoryCell"
 
-  @IBOutlet weak var iconView: UIView!
+  var category: Yelp.Category! {
+    didSet {
+      nameLabel.text = category.title
+      iconImage.image = UIImage(named: "\(category.alias).png")
+    }
+  }
+  
+  @IBOutlet weak var iconImage: UIImageView!
   @IBOutlet weak var nameLabel: UILabel!
   
   override func awakeFromNib() {

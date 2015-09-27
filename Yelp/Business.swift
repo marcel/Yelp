@@ -41,7 +41,7 @@ extension Yelp {
       var location: Location? {
         let locationDict = dictionary[Key.Location.rawValue] as? NSDictionary
 
-        return locationDict.map { Location(dictionary: $0) }
+        return locationDict.flatMap { Location(dictionary: $0) }
       }
 
       var categories: [Category] {
@@ -104,12 +104,11 @@ extension Yelp {
 
     // TODO Perhaps make this a failable initializer if any of the expected
     // attributes came back nil and then it can just be flatMapped out of the results
-    private init(payload: Payload) {
+    private init?(payload: Payload) {
       self.payload = payload
 
       self.id               = payload.id
       self.name             = payload.name
-      self.location         = payload.location!
       self.thumbnailUrl     = payload.imageUrl
       self.ratingImageUrl   = payload.ratingImageUrl!
       self.distanceInMiles  = payload.distanceInMiles
@@ -119,9 +118,16 @@ extension Yelp {
       self.fullSizeImageUrl = payload.imageUrl.map {
         Business.changeFileInUrl($0, toFileName: "o.jpg")
       }
+
+      if let location = payload.location {
+        self.location = location
+      } else {
+        self.location = Location.undefined
+        return nil
+      }
     }
 
-    convenience init(dictionary: NSDictionary) {
+    convenience init?(dictionary: NSDictionary) {
       self.init(payload: Payload(dictionary: dictionary))
     }
 

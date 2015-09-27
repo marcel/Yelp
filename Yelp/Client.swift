@@ -257,7 +257,10 @@ extension Yelp {
             if let dictionaries = response["businesses"] as? [NSDictionary] {
               debugPrint(dictionaries)
 
-              let businesses = dictionaries.map { Business(dictionary: $0) }
+              let businesses = dictionaries.flatMap {
+                Business(dictionary: $0)
+              }
+              
               completion(businesses, nil)
             }
           }, failure: { (operation, error) in

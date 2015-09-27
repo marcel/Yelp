@@ -8,7 +8,10 @@
 
 import UIKit
 
-class CategoriesViewController: UITableViewController {
+class CategoriesViewController: UITableViewController,
+  UISearchControllerDelegate, UISearchBarDelegate {
+  typealias CategoryFilter = Yelp.Category -> Bool
+
 //  - [0] : "Active Life"
 //  - [1] : "Arts & Entertainment"
 //  - [2] : "Automotive"
@@ -111,29 +114,76 @@ class CategoriesViewController: UITableViewController {
     Yelp.Category.allByParent[l]!.count > Yelp.Category.allByParent[r]!.count
   }.flatMap { Yelp.Category.allByAlias[$0] }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  var categories: [Yelp.Category] {
+    return topCategoriesByChildren.filter {
+      categoryFilter($0)
+    }
+  }
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+  var categoryFilter = CategoriesViewController.defaultCategoryFilter
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+  private static let defaultCategoryFilter: CategoryFilter = { _ in
+    true
+  }
+
+  func filterFromQuery(query: String) -> CategoryFilter {
+    let terms = query.characters.split { $0 == " " }.map(String.init)
+
+    return { category in
+      terms.reduce(false) { (hasMatched, term) in
+        hasMatched || category.title.containsString(term)
+      }
+    }
+  }
+
+  var searchController: UISearchController!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setupSearchBar()
+  }
+
+  func setupSearchBar() {
+    self.searchController = UISearchController(searchResultsController: nil)
+    searchController.hidesNavigationBarDuringPresentation = false
+    searchController.dimsBackgroundDuringPresentation = false
+    searchController.searchBar.delegate = self
+    navigationItem.titleView = searchController.searchBar
+  }
+
+  func reloadTable() {
+    tableView.reloadData()
+  }
+
+  // MARK: - UISearchBarDelegate
+
+  func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    let whitespace     = NSCharacterSet.whitespaceCharacterSet()
+    let strippedString = searchText.stringByTrimmingCharactersInSet(whitespace)
+    print("Search query: '\(searchText)'")
+
+    if strippedString.isEmpty {
+      categoryFilter = CategoriesViewController.defaultCategoryFilter
+    } else {
+      categoryFilter = filterFromQuery(strippedString)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    reloadTable()
+  }
 
-    // MARK: - Table view data source
+  func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    categoryFilter = CategoriesViewController.defaultCategoryFilter
+    reloadTable()
+  }
+
+  // MARK: - Table view data source
 
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     return 1
   }
 
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return topCategoriesByChildren.count
+    return categories.count
   }
 
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -142,8 +192,7 @@ class CategoriesViewController: UITableViewController {
       forIndexPath: indexPath
     ) as! CategoryCell
 
-    let category = topCategoriesByChildren[indexPath.row]
-    cell.nameLabel.text = category.title
+    cell.category = categories[indexPath.row]
     
     return cell
   }
@@ -152,49 +201,16 @@ class CategoriesViewController: UITableViewController {
     return "Top Categories"
   }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    let categoryCell = sender as! CategoryCell
+//    let destinationNavigationController = segue.destinationViewController as! UINavigationController
+//    let searchResultsController = destinationNavigationController.viewControllers.first! as! SearchResultsViewController
+    let searchResultsController = segue.destinationViewController as! SearchResultsViewController
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
+    let query = Yelp.Client.SearchQuery(
+      categories: [categoryCell.category.alias]
+    )
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    searchResultsController.currentQuery = query
+  }
 }

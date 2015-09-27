@@ -39,7 +39,7 @@ class SearchResultsViewController: BusinessesTableViewController,
     
     setupSearchBar()
 
-    performSearch()
+    performSearch(currentQuery)
   }
 
   func performSearch(
@@ -125,6 +125,7 @@ class SearchResultsViewController: BusinessesTableViewController,
         let filtersViewController =  navigationController.viewControllers.first! as! FiltersViewController
 
         filtersViewController.delegate = self
+        filtersViewController.contextualSearchQuery = currentQuery
       case Segue.DetailView.rawValue?:
         let tappedCell = sender as! BusinessCell
         let detailsViewController = segue.destinationViewController as! BusinessDetailViewController

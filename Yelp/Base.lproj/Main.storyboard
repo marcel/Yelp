@@ -19,10 +19,10 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="66"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QCX-36-CXG" id="wCf-oC-Upt">
-                                    <rect key="frame" x="0.0" y="0.0" width="342" height="65"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="65.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="uwe-dA-K0r">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="uwe-dA-K0r" userLabel="Icon">
                                             <rect key="frame" x="14" y="15" width="30" height="30"/>
                                             <animations/>
                                             <constraints>
@@ -49,9 +49,9 @@
                                 </tableViewCellContentView>
                                 <animations/>
                                 <connections>
-                                    <outlet property="iconView" destination="wCf-oC-Upt" id="k8z-w7-KNg"/>
+                                    <outlet property="iconImage" destination="uwe-dA-K0r" id="cyn-PW-daW"/>
                                     <outlet property="nameLabel" destination="qTu-p4-cy1" id="EKq-uO-hGA"/>
-                                    <segue destination="9pv-A4-QxB" kind="show" id="r8H-Fg-BgQ"/>
+                                    <segue destination="9pv-A4-QxB" kind="show" id="x4a-Oh-vZc"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -65,7 +65,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lLU-ls-GqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1001.5" y="-1476.5"/>
+            <point key="canvasLocation" x="965.5" y="-1476.5"/>
         </scene>
         <!--Search Results View Controller-->
         <scene sceneID="hNz-n2-bh7">
@@ -81,7 +81,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="112"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Et-AQ-lkk" id="bzC-Ma-Xe7">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="111"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="111.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1. State Bird Provisions" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HUe-ks-A0x">
@@ -239,10 +239,10 @@
                         <color key="sectionIndexTrackingBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="SwitchCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="77" id="AYS-lQ-xt0" userLabel="Switch Cell" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="114" width="375" height="77"/>
+                                <rect key="frame" x="0.0" y="113.5" width="375" height="77"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AYS-lQ-xt0" id="Rgx-eq-gZk">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="76"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="76.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Display Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CnA-TP-4nC">
@@ -323,7 +323,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-488.5" y="-646.5"/>
+            <point key="canvasLocation" x="-922.5" y="-644.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FQE-9b-Hk2">
@@ -350,7 +350,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3IU-p3-Hdu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="315.5" y="-718.5"/>
+            <point key="canvasLocation" x="323.5" y="-654.5"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="ABp-mb-yLX">
@@ -374,7 +374,7 @@
                                         <rect key="frame" x="0.0" y="92" width="375" height="112"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Klt-hY-QUr" id="AQT-13-BBF">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="111"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="111.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1. State Bird Provisions" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ia-TQ-bNB">
@@ -634,7 +634,7 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ffe-Vo-0E8">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ffe-Vo-0E8">
                                 <rect key="frame" x="67" y="148" width="240" height="128"/>
                                 <animations/>
                                 <constraints>
@@ -642,14 +642,14 @@
                                     <constraint firstAttribute="width" constant="240" id="e5H-NO-8sp"/>
                                 </constraints>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="149 Noe St, San Francisco, CA 94114" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLN-6R-KLE" userLabel="Address">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="149 Noe St, San Francisco, CA 94114" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLN-6R-KLE" userLabel="Address">
                                 <rect key="frame" x="67" y="278" width="240" height="15"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(b/t Henry St &amp; 14th St) in Duboce Triangle" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwl-Er-p9s" userLabel="Cross Streets">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="(b/t Henry St &amp; 14th St) in Duboce Triangle" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwl-Er-p9s" userLabel="Cross Streets">
                                 <rect key="frame" x="67" y="293" width="240" height="12"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="10"/>
@@ -670,7 +670,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dY5-ZP-8sD" userLabel="Reviews Container View">
+                            <view opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dY5-ZP-8sD" userLabel="Reviews Container View">
                                 <rect key="frame" x="0.0" y="313" width="375" height="310"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recommended Review" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bus-eB-rQB">
@@ -772,7 +772,7 @@
                                             <outlet property="userNameLabel" destination="hLT-sD-IWd" id="dC8-Q2-9r9"/>
                                         </connections>
                                     </view>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5Js-eL-tGR" userLabel="Image Grid">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5Js-eL-tGR" userLabel="Image Grid">
                                         <rect key="frame" x="20" y="135" width="335" height="175"/>
                                         <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -977,7 +977,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xEJ-Kq-p4y" id="krg-xV-YyE">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cA3-6y-dah">
@@ -1045,7 +1045,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ci1-gK-ly6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="307.5" y="-3.5"/>
+            <point key="canvasLocation" x="323.5" y="256.5"/>
         </scene>
         <!--Bookmarks-->
         <scene sceneID="gnU-6g-nch">
@@ -1061,7 +1061,7 @@
                                 <rect key="frame" x="0.0" y="92" width="375" height="112"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZsJ-1N-vSH" id="0H3-RZ-7TP">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="111"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="111.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1. State Bird Provisions" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxJ-Bi-Pfg">
@@ -1200,17 +1200,18 @@
             </objects>
             <point key="canvasLocation" x="1010.5" y="-3.5"/>
         </scene>
-        <!--Browse-->
+        <!--Categories-->
         <scene sceneID="o2l-Vt-fAh">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5r7-8d-Qbs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Browse" image="browse.png" id="3uu-tT-3AY"/>
+                    <tabBarItem key="tabBarItem" title="Categories" image="browse.png" id="3uu-tT-3AY"/>
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="thU-Ig-0f4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="barTintColor" red="0.71764705880000002" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1258,8 +1259,8 @@
         <image name="phone.png" width="600" height="600"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="r8H-Fg-BgQ"/>
         <segue reference="Xoa-0B-eCo"/>
+        <segue reference="x4a-Oh-vZc"/>
         <segue reference="F7O-6Y-che"/>
     </inferredMetricsTieBreakers>
 </document>
