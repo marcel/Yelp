@@ -2,7 +2,7 @@
 
 This is a Yelp search app using the [Yelp API](http://developer.rottentomatoes.com/docs/read/JSON).
 
-Time spent: ~60
+Time spent: ~70
 
 ### Features
 
@@ -15,7 +15,7 @@ Time spent: ~60
 - [X] Filter page. Unfortunately, not all the filters are supported in the Yelp API.
    - [X] The filters you should actually have are: category, sort (best match, distance, highest rated), radius (meters), deals (on/off).
    - [X] The filters table should be organized into sections as in the mock.
-   - [ ] You can use the default UISwitch for on/off states. Optional: implement a custom switch
+   - [X] You can use the default UISwitch for on/off states. Optional: implement a custom switch
    - [X] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
    - [X] Display some of the available Yelp categories (choose any 3-4 that you want).
 
@@ -33,4 +33,17 @@ Time spent: ~60
 
 ![Video Walkthrough](http://bazihassan.com/wp-content/uploads/2015/03/comingsoon.jpg)
 
+#### Searching and Filtering
+![Searching and Filtering](YelpSearching.gif)
+
+#### Map View
+![Map View](YelpMapView.gif)
+
+#### Bookmarking Businesses
+![Bookingmarking Businesses](YelpBookmarking.gif)
+
+#### Browsing Categories
+![Browsing Categories](YelpCategories.gif)
+
+#### Application Shortcut Items
 ![Application Shortcut Items](ApplicationShortcutItems.png)
