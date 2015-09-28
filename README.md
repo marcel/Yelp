@@ -33,8 +33,8 @@ Time spent: ~70
 
 ![Video Walkthrough](http://bazihassan.com/wp-content/uploads/2015/03/comingsoon.jpg)
 
-#### Searching and Filtering
-![Searching and Filtering](YelpSearching.gif)
+#### Searching
+![Searching](YelpSearching.gif)
 
 #### Map View
 ![Map View](YelpMapView.gif)
