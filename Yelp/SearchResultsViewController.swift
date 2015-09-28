@@ -67,6 +67,8 @@ class SearchResultsViewController: BusinessesTableViewController,
       } else {
         completion?([])
         self.progressIndicator.error("No Results")
+        // N.B. TODO currenQuery should really be a bounded stack so we can pop out a level
+        // rather than scorch the earth
       }
     }
   }

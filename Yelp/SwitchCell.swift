@@ -51,10 +51,11 @@ class SwitchCell: UITableViewCell {
   
   override func awakeFromNib() {
     super.awakeFromNib()
+    selectionStyle = UITableViewCellSelectionStyle.None
   }
 
   override func setSelected(selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
+    // Do not
   }
 
   @IBAction func switchValueChanged() {

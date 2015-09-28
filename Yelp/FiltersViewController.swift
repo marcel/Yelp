@@ -51,10 +51,12 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
     typealias SectionReverseIndex = [Section.Index: Section]
     typealias Selections = Set<CellValue>
 
+    private static let maxPreviewSize = 3
+
     let sections: [Section]
     let sectionsByIndex: SectionReverseIndex
     private var selections = Dictionary<Section.Index, Selections>()
-    private let toggled = Set<Section.Index>()
+    private var toggleState = ToggleState()
     private let defaultSearchQuery = SearchQuery()
 
     init(sections: [Section]) {
@@ -67,6 +69,16 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
       sections.forEach { section in
         let defaultValues = section.values.filter { $0.enabledByDefault }
         selections[section.index] = Selections(defaultValues)
+      }
+    }
+
+    func isToggled(section: Section) -> Bool {
+      return toggleState.isToggled(section)
+    }
+
+    mutating func toggle(section: Section, togglePerformed: ((isExpanding: Bool) -> ())?) {
+      if section.isTogglable {
+        togglePerformed?(isExpanding: toggleState.toggle(section))
       }
     }
 
@@ -116,17 +128,20 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
       return sectionForIndexPath(indexPath).values[indexPath.row]
     }
 
-    static let togglable = Set<Section.Index>([.Distance, .Sort])
+    func numberOfSections() -> Int {
+      let sectionsWithAtLeastOneValue = sections.filter { !$0.values.isEmpty }
+      return sectionsWithAtLeastOneValue.count
+    }
+
+    func previewSizeForSection(section: Section) -> Int {
+      return min(SectionController.maxPreviewSize, section.values.count)
+    }
 
     struct ToggleState {
       private var toggled = Set<Section.Index>()
 
       func isToggled(section: Section) -> Bool {
         return toggled.contains(section.index)
-      }
-
-      func canBeToggled(section: Section) -> Bool {
-        return togglable.contains(section.index)
       }
 
       mutating func toggle(section: Section) -> Bool {
@@ -224,57 +239,97 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
 
   // MARK: - Table view data source
 
-  // TODO
+  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    let section = sectionController.sectionForIndexPath(indexPath)
 
-//  override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-//    <#code#>
-//  }
-//
-//  override func tableView(tableView: UITableView, accessoryTypeForRowWithIndexPath indexPath: NSIndexPath) -> UITableViewCellAccessoryType {
-//    <#code#>
-//  }
+    print("Selected row \(indexPath.row) in section \(section) in section \(section)")
 
-  override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-//    let section = sectionForIndexPath(indexPath)
+    sectionController.toggle(section) { isExpanding in
+      print("Section is toggleable and was toggled. isExpanding = \(isExpanding)")
 
-//    if toggleState.canBeToggled(section) {
-//
-//    } else {
-//
-//    }
+      tableView.reloadSections(
+        NSIndexSet(index: indexPath.section),
+        withRowAnimation: UITableViewRowAnimation.Automatic
+      )
+    }
   }
-
-  // Don't need this if I just use the viewForFooterSection
-//  override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-//    return sectionForIndexPath(indexPath).map { $0.title }
-//  }
-
-//  func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//    <#code#>
-//  }
-
-//  override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//    <#code#>
-//  }
 
   override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return sectionController.sectionForSectionNumber(section).title
   }
 
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return sectionController.sections.count
+    return sectionController.numberOfSections()
   }
 
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return sectionController.sectionForSectionNumber(section).values.count
+    let theSection = sectionController.sectionForSectionNumber(section)
+
+    if theSection.isTogglable && !sectionController.isToggled(theSection) {
+      if sectionController.selectionsForSection(theSection).isEmpty {
+        let previewSize = sectionController.previewSizeForSection(theSection)
+        return previewSize < theSection.values.count ? previewSize + 1 : previewSize
+      } else {
+        return 1
+      }
+    } else {
+      return theSection.values.count
+    }
   }
 
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier(
+
+    let section = sectionController.sectionForIndexPath(indexPath)
+
+    if sectionController.isToggled(section) || !section.isTogglable {
+      return switchCellForIndexPath(indexPath)
+    } else {
+      if sectionController.selectionsForSection(section).isEmpty && indexPath.row < sectionController.previewSizeForSection(section) {
+        return switchCellForIndexPath(indexPath)
+      } else {
+        return toggleCellForIndexPath(indexPath)
+      }
+    }
+  }
+
+  func toggleCellForIndexPath(indexPath: NSIndexPath) -> SwitchCell {
+    let cell = dequeueCellAtIndexPath(indexPath)
+
+    cell.onSwitch.hidden = true
+
+    // TODO Consider moving to the accessoryType related callbacks
+    let accessoryButton   = UIImageView(image: UIImage(named: "downward-chevron.png"))
+    accessoryButton.frame = UIButton(type: UIButtonType.DetailDisclosure).frame
+    cell.accessoryView    = accessoryButton
+
+    let section        = sectionController.sectionForIndexPath(indexPath)
+    let selectedValues = Array(sectionController.selectionsForSection(section))
+
+    if let defaultValue = selectedValues.first {
+      cell.value = SwitchCell.Value(display: defaultValue.display, raw: "")
+    } else {
+      let label = "See \(section.values.count - sectionController.previewSizeForSection(section)) more"
+      cell.value = SwitchCell.Value(display: label, raw: "")
+      cell.valueDisplayLabel.textColor = UIColor.grayColor()
+      cell.valueDisplayLabel.center = cell.center
+    }
+
+    return cell
+  }
+
+  func dequeueCellAtIndexPath(indexPath: NSIndexPath) -> SwitchCell {
+    return tableView.dequeueReusableCellWithIdentifier(
       SwitchCell.identifier,
       forIndexPath: indexPath
     ) as! SwitchCell
+  }
 
+  func switchCellForIndexPath(indexPath: NSIndexPath) -> SwitchCell {
+    let cell = dequeueCellAtIndexPath(indexPath)
+    cell.onSwitch.hidden = false
+    cell.accessoryView   = .None
+    cell.valueDisplayLabel.textColor = UIColor.blackColor()
+    
     cell.delegate = self
 
     let section = sectionController.sectionForIndexPath(indexPath)
@@ -282,7 +337,10 @@ class FiltersViewController: UITableViewController, SwitchCellDelegate {
 
     cell.value   = value
     cell.section = indexPath.section
-    cell.onSwitch.on = sectionController.hasSelectionBeenMadeForValue(value, fromSection: section)
+    cell.onSwitch.on = sectionController.hasSelectionBeenMadeForValue(
+      value,
+      fromSection: section
+    )
 
     return cell
   }
