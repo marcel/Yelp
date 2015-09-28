@@ -208,6 +208,10 @@
 		1FDFCD261BB8A38A0022A990 /* transport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDFCC921BB8A38A0022A990 /* transport@2x.png */; settings = {ASSET_TAGS = (); }; };
 		1FDFCD271BB8A38A0022A990 /* turkish.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDFCC931BB8A38A0022A990 /* turkish.png */; settings = {ASSET_TAGS = (); }; };
 		1FDFCD281BB8A38A0022A990 /* turkish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDFCC941BB8A38A0022A990 /* turkish@2x.png */; settings = {ASSET_TAGS = (); }; };
+		1FDFCD2B1BB8B6E70022A990 /* telephone.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDFCD291BB8B6E70022A990 /* telephone.png */; settings = {ASSET_TAGS = (); }; };
+		1FDFCD2C1BB8B6E70022A990 /* telephone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDFCD2A1BB8B6E70022A990 /* telephone@2x.png */; settings = {ASSET_TAGS = (); }; };
+		1FDFCD2F1BB8C69A0022A990 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDFCD2D1BB8C69A0022A990 /* search@2x.png */; settings = {ASSET_TAGS = (); }; };
+		1FDFCD301BB8C69A0022A990 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDFCD2E1BB8C69A0022A990 /* search.png */; settings = {ASSET_TAGS = (); }; };
 		1FE1C43B1BB2A6FD002D4EE0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE1C43A1BB2A6FD002D4EE0 /* Location.swift */; settings = {ASSET_TAGS = (); }; };
 		84C406234D6A67C690708FCE /* Pods_Yelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6667808D759168865FB540 /* Pods_Yelp.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -438,6 +442,10 @@
 		1FDFCC921BB8A38A0022A990 /* transport@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transport@2x.png"; sourceTree = "<group>"; };
 		1FDFCC931BB8A38A0022A990 /* turkish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = turkish.png; sourceTree = "<group>"; };
 		1FDFCC941BB8A38A0022A990 /* turkish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "turkish@2x.png"; sourceTree = "<group>"; };
+		1FDFCD291BB8B6E70022A990 /* telephone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = telephone.png; sourceTree = "<group>"; };
+		1FDFCD2A1BB8B6E70022A990 /* telephone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "telephone@2x.png"; sourceTree = "<group>"; };
+		1FDFCD2D1BB8C69A0022A990 /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
+		1FDFCD2E1BB8C69A0022A990 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		1FE1C43A1BB2A6FD002D4EE0 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		2E6667808D759168865FB540 /* Pods_Yelp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yelp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB1517B960BB15B83D0EABC /* Pods-Yelp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yelp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yelp/Pods-Yelp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -623,6 +631,10 @@
 				1FDFCC001BB8A0EC0022A990 /* Categories */,
 				1F3892D41BB6BB6B00AAD5E7 /* list@2x.png */,
 				1FA29D891BB7DC3300AF63C3 /* landscape-placeholder@2x.png */,
+				1FDFCD2D1BB8C69A0022A990 /* search@2x.png */,
+				1FDFCD2E1BB8C69A0022A990 /* search.png */,
+				1FDFCD291BB8B6E70022A990 /* telephone.png */,
+				1FDFCD2A1BB8B6E70022A990 /* telephone@2x.png */,
 				1FA29D8A1BB7DC3300AF63C3 /* landscape-placeholder.png */,
 				1F3892D51BB6BB6B00AAD5E7 /* list.png */,
 				1F3892D01BB6B99400AAD5E7 /* map@2x.png */,
@@ -989,6 +1001,7 @@
 				1F3892D31BB6B99400AAD5E7 /* map.png in Resources */,
 				1FDFCD091BB8A38A0022A990 /* physicians.png in Resources */,
 				1F6D9F4F1BB1F7CD00443A53 /* business_90_square.png in Resources */,
+				1FDFCD301BB8C69A0022A990 /* search.png in Resources */,
 				1FDFCD201BB8A38A0022A990 /* sportgoods@2x.png in Resources */,
 				1FDFCCC61BB8A38A0022A990 /* fitness@2x.png in Resources */,
 				1FDFCCF01BB8A38A0022A990 /* massmedia@2x.png in Resources */,
@@ -998,6 +1011,7 @@
 				1FDFCC981BB8A38A0022A990 /* african@2x.png in Resources */,
 				1FDFCCE91BB8A38A0022A990 /* localflavor.png in Resources */,
 				1FDFCC991BB8A38A0022A990 /* arabian.png in Resources */,
+				1FDFCD2B1BB8B6E70022A990 /* telephone.png in Resources */,
 				1FDFCD231BB8A38A0022A990 /* tours.png in Resources */,
 				1FDFCD061BB8A38A0022A990 /* petservices@2x.png in Resources */,
 				1F8434A61BB546FA0076D1DF /* bookmark-enabled-30@2x.png in Resources */,
@@ -1010,6 +1024,7 @@
 				1FDFCCD71BB8A38A0022A990 /* homeandgarden.png in Resources */,
 				1FDFCCDF1BB8A38A0022A990 /* italian.png in Resources */,
 				1FDFCC971BB8A38A0022A990 /* african.png in Resources */,
+				1FDFCD2F1BB8C69A0022A990 /* search@2x.png in Resources */,
 				1FDFCCAA1BB8A38A0022A990 /* brazilian@2x.png in Resources */,
 				1FDFCCF41BB8A38A0022A990 /* media@2x.png in Resources */,
 				1FDFCD031BB8A38A0022A990 /* pets.png in Resources */,
@@ -1072,6 +1087,7 @@
 				1FDFCCF21BB8A38A0022A990 /* medcenters@2x.png in Resources */,
 				1FDBFD661BB6A37F0091F0AF /* logo@2x.png in Resources */,
 				1FDFCD001BB8A38A0022A990 /* nonprofit@2x.png in Resources */,
+				1FDFCD2C1BB8B6E70022A990 /* telephone@2x.png in Resources */,
 				1FDFCD221BB8A38A0022A990 /* tanning@2x.png in Resources */,
 				1FDFCCD01BB8A38A0022A990 /* gourmet@2x.png in Resources */,
 				1FDFCD141BB8A38A0022A990 /* realestate@2x.png in Resources */,

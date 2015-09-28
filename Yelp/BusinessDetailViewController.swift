@@ -50,6 +50,7 @@ class BusinessDetailViewController: UIViewController,
 
   var progressIndicator: ProgressIndicator!
 
+  @IBOutlet weak var callBusinessIcon: UIImageView!
 
   @IBOutlet weak var imageGrid: UICollectionView!
   @IBOutlet weak var addressLabel: UILabel!
@@ -68,6 +69,21 @@ class BusinessDetailViewController: UIViewController,
 
   @IBOutlet weak var bookmarkButton: UIBarButtonItem!
 
+  @IBAction func callBusinessButtonPressed()  {
+    UIView.animateWithDuration(1.25, animations: {
+      self.callBusinessIcon.alpha = 0.4
+      self.callBusinessIcon.alpha = 1.0
+    })
+
+    if let phoneNumber = business.phoneNumber {
+      let app = UIApplication.sharedApplication()
+      let url = "telprompt://\(phoneNumber)"
+
+      app.openURL(NSURL(string: url)!)
+      print("Call button pressed: \(phoneNumber)")
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     progressIndicator = ProgressIndicator(view: navigationController!.view)
@@ -78,8 +94,10 @@ class BusinessDetailViewController: UIViewController,
     setupReviewContainer()
     loadReviews()
     setDistance()
+    setCallBusinessButton()
     setCategories()
     setReviewCount()
+
 
     setAddressInformation()
     setupRatingImageView()
@@ -157,7 +175,7 @@ class BusinessDetailViewController: UIViewController,
     }
   }
 
-  @IBAction func bookmarkButtonPresed(sender: AnyObject) {
+  @IBAction func bookmarkButtonPressed(sender: AnyObject) {
     bookmarkRepository.toggleState(business)
 
     setBookmarkButtonState()
@@ -169,6 +187,10 @@ class BusinessDetailViewController: UIViewController,
     } else {
       bookmarkButton.image = BookmarkIcon.Disabled.icon
     }
+  }
+
+  func setCallBusinessButton() {
+    callBusinessIcon.hidden = business.phoneNumber == .None
   }
 
   func setupReviewContainer() {

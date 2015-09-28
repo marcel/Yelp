@@ -24,6 +24,7 @@ extension Yelp {
         case Rating         = "rating"
         case ReviewCount    = "review_count"
         case IsClosed       = "is_closed"
+        case PhoneNumber    = "phone"
       }
 
       var id: Id {
@@ -78,6 +79,10 @@ extension Yelp {
         return dictionary[Key.IsClosed.rawValue] as! Int == 1
       }
 
+      var phoneNumber: String? {
+        return dictionary[Key.PhoneNumber.rawValue] as? String
+      }
+
       private func urlFromKey(key: Key) -> SecureURL? {
         let urlString = dictionary[key.rawValue] as? String
 
@@ -97,6 +102,7 @@ extension Yelp {
     let reviewCount: Int
     let categories: [Category]
     let isClosed: Bool
+    let phoneNumber: String?
 
     private let payload: Payload
 
@@ -115,6 +121,7 @@ extension Yelp {
       self.reviewCount      = payload.reviewCount!
       self.categories       = payload.categories
       self.isClosed         = payload.isClosed
+      self.phoneNumber      = payload.phoneNumber
       self.fullSizeImageUrl = payload.imageUrl.map {
         Business.changeFileInUrl($0, toFileName: "o.jpg")
       }

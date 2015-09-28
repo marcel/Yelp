@@ -865,6 +865,18 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="telephone.png" translatesAutoresizingMaskIntoConstraints="NO" id="ex5-eK-CF5">
+                                <rect key="frame" x="342" y="96" width="25" height="25"/>
+                                <animations/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="4Bm-e6-7qQ"/>
+                                    <constraint firstAttribute="width" constant="25" id="BRN-cr-1vH"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="ONa-Ek-Ok5" appends="YES" id="NyJ-zJ-QWA"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -877,6 +889,7 @@
                             <constraint firstAttribute="trailing" secondItem="76p-gp-j13" secondAttribute="trailing" constant="8" id="78i-9J-B4a"/>
                             <constraint firstItem="mwl-Er-p9s" firstAttribute="top" secondItem="jLN-6R-KLE" secondAttribute="bottom" id="7ZA-52-CMZ"/>
                             <constraint firstItem="nHv-hN-dOM" firstAttribute="top" secondItem="mzl-7r-QmZ" secondAttribute="bottom" id="7ja-KC-FAM"/>
+                            <constraint firstItem="ex5-eK-CF5" firstAttribute="top" secondItem="76p-gp-j13" secondAttribute="bottom" id="81l-Nf-Xl7"/>
                             <constraint firstItem="nHv-hN-dOM" firstAttribute="top" secondItem="dY5-ZP-8sD" secondAttribute="bottom" id="9BO-hm-WAe"/>
                             <constraint firstItem="gqj-h6-0wL" firstAttribute="centerY" secondItem="r2e-x0-TRr" secondAttribute="centerY" id="AwJ-zN-6iz"/>
                             <constraint firstItem="mzl-7r-QmZ" firstAttribute="top" secondItem="7P2-kB-UdD" secondAttribute="bottom" id="Axm-gq-ri8"/>
@@ -906,6 +919,7 @@
                             <constraint firstItem="mwl-Er-p9s" firstAttribute="trailing" secondItem="ffe-Vo-0E8" secondAttribute="trailing" id="hzh-VZ-Epw"/>
                             <constraint firstItem="8Rj-HY-1T0" firstAttribute="top" secondItem="7P2-kB-UdD" secondAttribute="bottom" constant="44" id="jmI-MA-Rmb"/>
                             <constraint firstItem="dY5-ZP-8sD" firstAttribute="leading" secondItem="r2e-x0-TRr" secondAttribute="leading" id="mZh-df-egI"/>
+                            <constraint firstAttribute="trailing" secondItem="ex5-eK-CF5" secondAttribute="trailing" constant="8" id="mk9-qi-NXo"/>
                             <constraint firstItem="mzl-7r-QmZ" firstAttribute="leading" secondItem="r2e-x0-TRr" secondAttribute="leading" id="oGM-oh-THF"/>
                             <constraint firstItem="mAI-5F-pnL" firstAttribute="top" secondItem="mev-xa-y85" secondAttribute="bottom" constant="2" id="qGn-Gi-1wx"/>
                             <constraint firstItem="mev-xa-y85" firstAttribute="centerY" secondItem="8Rj-HY-1T0" secondAttribute="centerY" id="rrw-WX-mRD"/>
@@ -936,7 +950,7 @@
                         <barButtonItem key="rightBarButtonItem" image="bookmark-enabled-30.png" style="plain" id="D21-bR-8iN">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="bookmarkButtonPresed:" destination="h40-FS-sGC" id="kmg-zV-C8n"/>
+                                <action selector="bookmarkButtonPressed:" destination="h40-FS-sGC" id="b4w-5Q-3gr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -947,6 +961,7 @@
                         <outlet property="bookmarkButton" destination="D21-bR-8iN" id="cuR-CO-ub6"/>
                         <outlet property="businessNameLabel" destination="gqj-h6-0wL" id="WDw-SA-VcQ"/>
                         <outlet property="businessNameNavigationBarItem" destination="mrk-hV-eFQ" id="ORk-Tq-lve"/>
+                        <outlet property="callBusinessIcon" destination="ex5-eK-CF5" id="4c4-uR-nAR"/>
                         <outlet property="categoriesLabel" destination="mAI-5F-pnL" id="WGi-ri-yfe"/>
                         <outlet property="crossStreetAndNeighborhoodLabel" destination="mwl-Er-p9s" id="sM6-X8-NgL"/>
                         <outlet property="distanceLabel" destination="76p-gp-j13" id="oAx-9K-7Q7"/>
@@ -960,6 +975,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qxf-aj-fbu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="ONa-Ek-Ok5">
+                    <connections>
+                        <action selector="callBusinessButtonPressed" destination="h40-FS-sGC" id="oqN-0w-lWN"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2823.5" y="-43.5"/>
         </scene>
@@ -1257,10 +1277,11 @@
         <image name="list.png" width="30" height="30"/>
         <image name="map.png" width="30" height="30"/>
         <image name="phone.png" width="600" height="600"/>
+        <image name="telephone.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Xoa-0B-eCo"/>
         <segue reference="x4a-Oh-vZc"/>
-        <segue reference="F7O-6Y-che"/>
+        <segue reference="lcv-z9-DCN"/>
     </inferredMetricsTieBreakers>
 </document>

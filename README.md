@@ -32,3 +32,5 @@ Time spent: ~40
 ### Walkthrough
 
 ![Video Walkthrough](http://bazihassan.com/wp-content/uploads/2015/03/comingsoon.jpg)
+
+![Application Shortcut Items](ApplicationShortcutItems.png)
