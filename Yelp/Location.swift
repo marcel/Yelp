@@ -64,13 +64,13 @@ extension Yelp {
       var addresses: [String] {
         return dictionary.valueForKeyPath(
           Key.Addresses.rawValue
-          ) as? [String] ?? []
+        ) as? [String] ?? []
       }
 
       var neighborhoods: [String] {
         return dictionary.valueForKeyPath(
           Key.Neighborhoods.rawValue
-          ) as? [String] ?? []
+        ) as? [String] ?? []
       }
 
       private func stringFromKey(key: Key) -> String? {

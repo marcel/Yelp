@@ -76,8 +76,8 @@ class MapViewController: BusinessesTableViewController, MKMapViewDelegate {
     let maxDegreesArc  = 360.0
 
     let mapPoints = annotations.map { MKMapPointForCoordinate($0.coordinate) }
-    let mapRect = MKPolygon(points: UnsafeMutablePointer(mapPoints), count: mapPoints.count).boundingMapRect
-    var region = MKCoordinateRegionForMapRect(mapRect)
+    let mapRect   = MKPolygon(points: UnsafeMutablePointer(mapPoints), count: mapPoints.count).boundingMapRect
+    var region    = MKCoordinateRegionForMapRect(mapRect)
 
     // If there is only 1 point we want the max zoom-in instead of max zoom-out
     if annotations.count == 1 {
@@ -119,8 +119,6 @@ class MapViewController: BusinessesTableViewController, MKMapViewDelegate {
     annotationView.annotation = annotation
     annotationView.canShowCallout = true
 //    annotationView.animatesDrop = true
-
-
     annotationView.rightCalloutAccessoryView = UIButton(type: UIButtonType.DetailDisclosure)
 
     return annotationView
