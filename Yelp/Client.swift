@@ -176,7 +176,8 @@ extension Yelp {
           Client.requestPathForBusiness(business),
           parameters: [:],
           success: { operation, response in
-            let dictionaries = response["reviews"] as? [NSDictionary]
+            let rep = response as! NSDictionary
+            let dictionaries = rep["reviews"] as? [NSDictionary]
             if dictionaries != nil {
               debugPrint(dictionaries)
 
@@ -254,7 +255,8 @@ extension Yelp {
           "search",
           parameters: parameters,
           success: { (operation, response) in
-            if let dictionaries = response["businesses"] as? [NSDictionary] {
+            let rep = response as! NSDictionary
+            if let dictionaries = rep["businesses"] as? [NSDictionary] {
               debugPrint(dictionaries)
 
               let businesses = dictionaries.flatMap {

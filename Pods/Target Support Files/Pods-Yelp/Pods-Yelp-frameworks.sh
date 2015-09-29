@@ -57,6 +57,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-Yelp/BDBOAuth1Manager.framework'
   install_framework 'Pods-Yelp/JGProgressHUD.framework'
   install_framework 'Pods-Yelp/NYTPhotoViewer.framework'
+  install_framework 'Pods-Yelp/Realm.framework'
+  install_framework 'Pods-Yelp/RealmSwift.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-Yelp/AFNetworking.framework'
@@ -64,4 +66,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-Yelp/BDBOAuth1Manager.framework'
   install_framework 'Pods-Yelp/JGProgressHUD.framework'
   install_framework 'Pods-Yelp/NYTPhotoViewer.framework'
+  install_framework 'Pods-Yelp/Realm.framework'
+  install_framework 'Pods-Yelp/RealmSwift.framework'
 fi

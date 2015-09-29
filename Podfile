@@ -7,11 +7,13 @@ target 'Yelp' do
   pod 'JGProgressHUD'
   pod 'Alamofire'
   pod "NYTPhotoViewer"
+  pod 'RealmSwift'
   use_frameworks!
 end
 
 target 'YelpTests' do
-
+  pod 'RealmSwift'
+  use_frameworks!
 end
 
 target 'YelpUITests' do
